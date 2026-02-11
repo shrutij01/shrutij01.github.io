@@ -3,48 +3,66 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const experience = [
   {
-    period: '2024 – present',
+    period: '2023 – present',
     role: 'PhD Student',
-    org: 'University Name',
-    orgUrl: '#',
-    description: 'Causal representation learning and mechanistic interpretability. Advised by Professor X.',
-    tags: ['identifiability', 'LLMs', 'causal inference'],
+    orgs: [
+      { name: 'Université de Montréal', url: 'https://www.umontreal.ca' },
+      { name: 'Mila', url: 'https://mila.quebec' },
+    ],
+    description: 'Representation learning theory and evaluation. My work establishes when learned representations provably recover latent structure, when standard evaluation metrics fail to detect this, and what causal inference contributes to mechanistic interpretability of large language models. Current focus: structural misspecification of identifiability metrics and the gap between associational and causal claims in interpretability.',
+    mentor: { name: 'Dhanya Sridhar', url: 'https://dsridhar.com' },
+    tags: ['identifiability', 'causality', 'interpretability', 'LLMs'],
     type: 'education' as const,
   },
   {
-    period: 'Summer 2025',
-    role: 'Research Intern',
-    org: 'Company Name',
-    orgUrl: '#',
-    description: 'Interpretability team. Worked on evaluating causal claims in circuit-level analyses of language models.',
-    tags: ['interpretability', 'LLMs'],
-    type: 'industry' as const,
-  },
-  {
-    period: '2022 – 2024',
-    role: 'MSc Computer Science',
-    org: 'University Name',
-    orgUrl: '#',
-    description: 'Thesis: "Title of your thesis." Focused on nonlinear ICA and disentangled representations.',
-    tags: ['nonlinear ICA', 'disentanglement'],
+    period: '2021 – 2023',
+    role: "Master's Student",
+    orgs: [
+      { name: 'Université de Montréal', url: 'https://www.umontreal.ca' },
+      { name: 'Mila', url: 'https://mila.quebec' },
+    ],
+    description: 'Investigated the causal competence of model-based RL agents: whether world models acquire long-horizon predictive structure or degenerate to short-range pattern matching. Designed physics simulations for controlled evaluation of agent planning and memory. Thesis work addressed the distinction between statistical fit and genuine environment understanding in learned dynamics models. The gap between statistical fit and causal competence became the central question of my subsequent work.',
+    mentor: { name: 'Devon Hjelm', url: 'https://scholar.google.com/citations?user=68c5HfwAAAAJ&hl=en' },
+    tags: ['world models', 'reinforcement learning', 'causal reasoning'],
     type: 'education' as const,
   },
   {
-    period: 'Summer 2023',
-    role: 'Research Intern',
-    org: 'Lab / Company Name',
-    orgUrl: '#',
-    description: 'Representation learning for scientific applications. Built evaluation pipelines for identifiability metrics.',
-    tags: ['evaluation', 'scientific ML'],
-    type: 'industry' as const,
+    period: '2020 – 2021',
+    role: 'Research Programmer',
+    orgs: [
+      { name: 'Empirical Inference, Max Planck Institute for Intelligent Systems', url: 'https://is.mpg.de/ei' },
+    ],
+    description: 'Real-time control software for robotic systems and development of the accompanying simulation package for hardware-independent testing. Research on self-supervised representation learning, specifically systematic generalisation: whether learned features compose under novel combinations of known factors or silently overfit to the training distribution. This raised the question I have worked on since: how to evaluate whether a representation has genuinely captured structure, rather than memorised surface statistics.',
+    mentors: [
+    { name: 'Bernhard Schölkopf', url: 'https://is.mpg.de/ei/person/bs'},
+    { name: 'Stefan Bauer', url: 'https://www.professoren.tum.de/en/bauer-stefan'},
+    ]
+    tags: ['robotics', 'self-supervised learning', 'open-source software', 'systematic generalisation'],
+    type: 'work' as const,
   },
   {
-    period: '2018 – 2022',
-    role: 'BSc in Mathematics & CS',
-    org: 'University Name',
-    orgUrl: '#',
-    description: 'Foundations in probability, optimisation, and machine learning.',
-    tags: [],
+    period: '2019 – 2020',
+    role: 'Research Intern',
+    orgs: [
+      { name: 'ServiceNow Research', url: 'https://www.servicenow.com/research/' },
+    ],
+    description: 'Adapted language models for text-based reinforcement learning environments (Jericho), where the agent must parse natural language observations, maintain belief state, and act in a combinatorial action space. This was sequential decision-making under language, before large-scale pretraining made the language part easy—model capacity was scarce and architectural choices were consequential. The experience sharpened the same question in a different modality: what separates a model that tracks state from one that merely correlates with it.',
+    tags: ['reinforcement learning', 'language grounding'],
+    type: 'work' as const,
+  },
+  {
+    period: '2015 – 2019',
+    role: "Bachelor's in Electrical Engineering",
+    orgs: [
+      { name: 'Indian Institute of Technology Kanpur', url: 'https://www.iitk.ac.in' },
+    ],
+    description: 'Research across optimisation, stochastic modelling, and formal methods: physics simulation design (BulletPhysics, C++) for deformable object manipulation, dynamic programming formulations for supply chain management, online convex optimisation, stochastic geometry and spatial point processes, and Z3-based reasoning for multi-agent social deduction. Consistent thread: taking loosely specified applied problems and giving them formal structure.',
+    mentors: [
+      { name: 'Dmitry Berenson', url: 'https://web.eecs.umich.edu/~dmitryb/', note: 'deformable object manipualtion, University of Michigan' },
+      { name: 'Amar Sapra', url: 'https://www.iimb.ac.in/user/142/amar-sapra', note: 'supply chain, IIM Bangalore' },
+      { name: 'Indranil Saha', url: 'https://www.cse.iitk.ac.in/users/isaha/', note: 'Z3 multi-agent reasoning, IIT Kanpur' },
+    ],
+    tags: ['optimisation', 'stochastic processes', 'formal methods'],
     type: 'education' as const,
   },
 ];
@@ -98,12 +116,47 @@ const typeStyles = {
                 {item.role}
               </h3>
               <p class="text-sm text-zinc-500 dark:text-zinc-400">
-                <a href={item.orgUrl} class="link-underline">{item.org}</a>
+                {item.orgs.map((org, idx) => (
+                  <Fragment>
+                    {idx > 0 && <span class="text-zinc-300 dark:text-zinc-600"> · </span>}
+                    <a href={org.url} target="_blank" rel="noopener" class="link-underline">{org.name}</a>
+                  </Fragment>
+                ))}
               </p>
 
               <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-xl">
                 {item.description}
               </p>
+
+              {/* Single mentor — small, dotted underline, clickable */}
+              {item.mentor && (
+                <p class="mt-1.5 text-xs text-zinc-400 dark:text-zinc-500">
+                  {item.mentor.note ? (
+                    <Fragment>
+                      with <a href={item.mentor.url} target="_blank" rel="noopener" class="hover:text-zinc-600 dark:hover:text-zinc-300 underline decoration-dotted underline-offset-2 transition-colors">{item.mentor.name}</a>
+                      <span class="text-zinc-300 dark:text-zinc-600"> · </span>
+                      <span>{item.mentor.note}</span>
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                      advised by <a href={item.mentor.url} target="_blank" rel="noopener" class="hover:text-zinc-600 dark:hover:text-zinc-300 underline decoration-dotted underline-offset-2 transition-colors">{item.mentor.name}</a>
+                    </Fragment>
+                  )}
+                </p>
+              )}
+
+              {/* Multiple mentors — subtle dotted links with notes */}
+              {item.mentors && (
+                <p class="mt-1.5 text-xs text-zinc-400 dark:text-zinc-500">
+                  {item.mentors.map((m, idx) => (
+                    <Fragment>
+                      {idx > 0 && <span class="text-zinc-300 dark:text-zinc-600"> · </span>}
+                      <a href={m.url} target="_blank" rel="noopener" class="hover:text-zinc-600 dark:hover:text-zinc-300 underline decoration-dotted underline-offset-2 transition-colors">{m.name}</a>
+                      {m.note && <span class="text-zinc-300 dark:text-zinc-600"> ({m.note})</span>}
+                    </Fragment>
+                  ))}
+                </p>
+              )}
 
               {item.tags.length > 0 && (
                 <div class="mt-2 flex flex-wrap gap-1.5">
@@ -123,7 +176,7 @@ const typeStyles = {
   <section class="mt-16 pt-8 border-t border-zinc-100 dark:border-zinc-800/50">
     <h2 class="section-heading">Tools & Languages</h2>
     <div class="flex flex-wrap gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-      {['Python', 'PyTorch', 'JAX', 'TypeScript', 'Rust', 'Git', 'Docker', 'LaTeX', 'Weights & Biases', 'HPC / SLURM'].map((tool) => (
+      {['Python', 'PyTorch', 'JAX', 'C++', 'TypeScript', 'Rust', 'Git', 'Docker', 'LaTeX', 'Weights & Biases', 'HPC / SLURM'].map((tool) => (
         <span class="px-3 py-1 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-xs font-medium">
           {tool}
         </span>
