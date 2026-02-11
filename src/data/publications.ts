@@ -22,6 +22,7 @@ export const publications: Publication[] = [
     highlight: true,
     links: [
       { label: 'arXiv', href: 'https://arxiv.org/abs/2502.12179' },
+      { label: 'code', href: 'https://github.com/shrutij01/safecausal'}
     ],
     bibtex: `@article{joshi2025identifiable,
   title={Identifiable steering via sparse autoencoding of multi-concept shifts},

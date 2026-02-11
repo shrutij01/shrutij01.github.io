@@ -9,10 +9,20 @@ const experience = [
       { name: 'Université de Montréal', url: 'https://www.umontreal.ca' },
       { name: 'Mila', url: 'https://mila.quebec' },
     ],
-    description: 'Identifiable representation learning and interpretability. My work establishes when learned representations provably recover latent structure, how , and what causal inference contributes to mechanistic interpretability of large language models. Current focus: structural misspecification of identifiability metrics and the gap between associational and causal claims in interpretability.',
+    description: 'My research connects identifiability theory with mechanistic interpretability. I develop methods that interpret unsupervised representations by operationalising identifiability guarantees, and I build evaluation protocols that remain meaningful under structural misspecification. Much of this work targets large language models (LLMs), where I aim to formalise and stress-test causal claims about circuits and representations.',
     mentor: { name: 'Dhanya Sridhar', url: 'https://dsridhar.com' },
     tags: ['identifiability', 'causality', 'interpretability', 'LLMs'],
     type: 'education' as const,
+  },
+   {
+    period: 'Fall 2022',
+    role: 'Research Intern',
+    orgs: [
+      { name: 'ServiceNow Research', url: 'https://www.servicenow.com/research/' },
+    ],
+    description: 'Adapted language models for text-based reinforcement learning environments (Jericho), where the agent must parse natural language observations, maintain belief state, and act in a combinatorially large action space. This was sequential decision-making under language before large-scale pretraining made the language part easy—model capacity was scarce and architectural choices were consequential. The experience posed the same question: what separates a model that tracks a useful latent state from one that merely correlates with low-level observable features?',
+    tags: ['reinforcement learning', 'language grounding'],
+    type: 'work' as const,
   },
   {
     period: '2021 – 2023',
@@ -21,7 +31,7 @@ const experience = [
       { name: 'Université de Montréal', url: 'https://www.umontreal.ca' },
       { name: 'Mila', url: 'https://mila.quebec' },
     ],
-    description: 'Investigated the causal competence of model-based RL agents: whether world models acquire long-horizon predictive structure or degenerate to short-range pattern matching. Designed physics simulations for controlled evaluation of agent planning and memory. Thesis work addressed the distinction between statistical fit and genuine environment understanding in learned dynamics models. The gap between statistical fit and causal competence became the central question of my subsequent work.',
+    description: 'Studied how agency shapes what is learnable: how model-based RL agents can acquire (and whethe they already do) causal world models through interaction with the environment. Built controlled physics simulations to evaluate planning and long-term memory under distribution shifts and novel interventions in partially observable, stochastic environments. This work crystallised the question that has guided my research since: how can representation learning be guided by affordances, i.e., what a system can do and observe so that learned variables reflect underlying structure?',
     mentor: { name: 'Devon Hjelm', url: 'https://scholar.google.com/citations?user=68c5HfwAAAAJ&hl=en' },
     tags: ['world models', 'reinforcement learning', 'causal reasoning'],
     type: 'education' as const,
@@ -32,7 +42,7 @@ const experience = [
     orgs: [
       { name: 'Empirical Inference, Max Planck Institute for Intelligent Systems', url: 'https://is.mpg.de/ei' },
     ],
-    description: 'Real-time control software for robotic systems and development of the accompanying simulation package for hardware-independent testing. Research on self-supervised representation learning, specifically systematic generalisation: whether learned features compose under novel combinations of known factors or silently overfit to the training distribution. This raised the question I have worked on since: how to evaluate whether a representation has genuinely captured structure, rather than memorised surface statistics.',
+    description: 'Developed real-time control and logging software for robotic manipulators and was the primary developer of the accompanying simulation package. Research on self-supervised representation learning, specifically systematic generalisation. This raised the question I have worked on since: how to learn and evaluate whether a representation has genuinely captured any relevant structure from data (and what relevant is).',
     mentors: [
     { name: 'Bernhard Schölkopf', url: 'https://is.mpg.de/ei/person/bs'},
     { name: 'Stefan Bauer', url: 'https://www.professoren.tum.de/en/bauer-stefan'},
@@ -41,22 +51,12 @@ const experience = [
     type: 'work' as const,
   },
   {
-    period: 'Fall 2022',
-    role: 'Research Intern',
-    orgs: [
-      { name: 'ServiceNow Research', url: 'https://www.servicenow.com/research/' },
-    ],
-    description: 'Adapted language models for text-based reinforcement learning environments (Jericho), where the agent must parse natural language observations, maintain belief state, and act in a combinatorial action space. This was sequential decision-making under language, before large-scale pretraining made the language part easy—model capacity was scarce and architectural choices were consequential. The experience sharpened the same question in a different modality: what separates a model that tracks state from one that merely correlates with it.',
-    tags: ['reinforcement learning', 'language grounding'],
-    type: 'work' as const,
-  },
-  {
     period: '2015 – 2019',
     role: "Bachelor's in Electrical Engineering",
     orgs: [
       { name: 'Indian Institute of Technology Kanpur', url: 'https://www.iitk.ac.in' },
     ],
-    description: 'Research across optimisation, stochastic modelling, and formal methods: physics simulation design (BulletPhysics, C++) for deformable object manipulation, dynamic programming formulations for supply chain management, online convex optimisation, stochastic geometry and spatial point processes, and Z3-based reasoning for multi-agent social deduction. Consistent thread: taking loosely specified applied problems and giving them formal structure.',
+    description: 'Research exploration across convex optimization, stochastic processes, robotic manipulation, and formal methods. Projects included building physics simulations (BulletPhysics, C++) for deformable object manipulation; formulating dynamic programs for supply-chain decisions; studying online convex optimization; working with stochastic geometry and spatial point processes; and using Z3 to formalize reasoning in multi-agent social deduction.',
     mentors: [
       { name: 'Dmitry Berenson', url: 'https://web.eecs.umich.edu/~dmitryb/', note: 'deformable object manipualtion, University of Michigan' },
       { name: 'Amar Sapra', url: 'https://www.iimb.ac.in/user/142/amar-sapra', note: 'supply chain, IIM Bangalore' },
