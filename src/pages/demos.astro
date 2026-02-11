@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RepresentationDemo from '../components/RepresentationDemo';
+---
+
+<BaseLayout title="Demos — Your Name">
+  <h1 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight mb-2">
+    Interactive Demos
+  </h1>
+  <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-10">
+    Explorable explanations of concepts from my research.
+  </p>
+
+  <!-- Demo 1: Representation Geometry -->
+  <section class="mb-16">
+    <h2 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-2">
+      Metric Misspecification Explorer
+    </h2>
+    <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6 max-w-2xl">
+      How do encoder geometry and latent correlations affect identifiability
+      metrics? This demo generates 200 samples from a 2D latent space and
+      passes them through a linear encoder you control. Watch how MCC
+      changes as you rotate the encoder (breaking axis-alignment) or
+      introduce latent correlation—even when the encoder remains perfectly
+      invertible.
+    </p>
+
+    <RepresentationDemo client:load />
+  </section>
+
+  <!-- Placeholder for future demos -->
+  <section class="py-12 border-t border-zinc-100 dark:border-zinc-800/50">
+    <h2 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-2">
+      More coming soon
+    </h2>
+    <p class="text-sm text-zinc-500 dark:text-zinc-400">
+      Planned: causal scrubbing walkthrough, superposition geometry in
+      transformer MLP layers, and an interactive DGP taxonomy explorer.
+    </p>
+  </section>
+</BaseLayout>

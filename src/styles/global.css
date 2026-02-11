@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+  }
+
+  body {
+    @apply bg-white text-zinc-800 dark:bg-zinc-950 dark:text-zinc-200;
+    @apply transition-colors duration-300;
+  }
+
+  ::selection {
+    @apply bg-accent-200 dark:bg-accent-800/50;
+  }
+
+  /* Smooth theme transition */
+  *, *::before, *::after {
+    @apply transition-colors duration-200;
+  }
+}
+
+@layer components {
+  .page-container {
+    @apply max-w-3xl mx-auto px-6 sm:px-8;
+  }
+
+  .section-heading {
+    @apply text-sm font-semibold uppercase tracking-widest
+           text-zinc-400 dark:text-zinc-500 mb-6;
+  }
+
+  .link-underline {
+    @apply underline decoration-zinc-300 dark:decoration-zinc-600
+           underline-offset-4 hover:decoration-accent-500
+           dark:hover:decoration-accent-400 transition-colors;
+  }
+
+  .tag {
+    @apply inline-block text-xs font-medium px-2.5 py-0.5 rounded-full
+           bg-zinc-100 text-zinc-600
+           dark:bg-zinc-800 dark:text-zinc-400
+           border border-zinc-200 dark:border-zinc-700;
+  }
+
+  .tag-active {
+    @apply bg-accent-50 text-accent-700 border-accent-200
+           dark:bg-accent-950 dark:text-accent-300 dark:border-accent-800;
+  }
+
+  .card {
+    @apply p-5 rounded-lg
+           border border-zinc-150 dark:border-zinc-800
+           bg-zinc-50/50 dark:bg-zinc-900/50
+           hover:border-zinc-300 dark:hover:border-zinc-700
+           transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2
+           text-sm font-medium rounded-lg
+           bg-accent-600 text-white hover:bg-accent-700
+           dark:bg-accent-500 dark:hover:bg-accent-400 dark:text-zinc-950
+           transition-colors;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-3 py-1.5
+           text-sm font-medium rounded-lg
+           text-zinc-600 dark:text-zinc-400
+           hover:bg-zinc-100 dark:hover:bg-zinc-800
+           transition-colors;
+  }
+}
+
+/* Code block styling */
+pre {
+  @apply !rounded-lg !border !border-zinc-200 dark:!border-zinc-800;
+}
+
+/* KaTeX overrides for dark mode */
+.dark .katex { color: theme('colors.zinc.200'); }
+.dark .katex .mord { color: theme('colors.zinc.200'); }

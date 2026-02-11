@@ -1,0 +1,26 @@
+---
+const links = [
+  { label: 'Scholar', href: 'https://scholar.google.com/citations?user=YOUR_ID' },
+  { label: 'GitHub', href: 'https://github.com/YOUR_USERNAME' },
+  { label: 'Twitter', href: 'https://twitter.com/YOUR_HANDLE' },
+  { label: 'Email', href: 'mailto:your@email.com' },
+];
+---
+
+<footer class="border-t border-zinc-100 dark:border-zinc-800/50 mt-20">
+  <div class="page-container py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-zinc-400 dark:text-zinc-500">
+    <span>&copy; {new Date().getFullYear()} Your Name</span>
+    <div class="flex gap-5">
+      {links.map(({ label, href }) => (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener"
+          class="hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+        >
+          {label}
+        </a>
+      ))}
+    </div>
+  </div>
+</footer>

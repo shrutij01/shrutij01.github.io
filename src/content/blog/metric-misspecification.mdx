@@ -1,0 +1,62 @@
+---
+title: "Why Your Disentanglement Metric Might Be Lying"
+slug: "metric-misspecification"
+date: "2025-09-15"
+description: "Standard identifiability metrics can produce false positives under factor correlation and false negatives under overcomplete encodings. Here's a minimal example showing why."
+tags: ["identifiability", "metrics", "tutorial"]
+---
+
+## The setup
+
+Consider a data-generating process with two independent latent factors $z_1, z_2 \sim \mathcal{N}(0, 1)$ and an encoder $f : \mathbb{R}^n \to \mathbb{R}^2$ that produces codes $\hat{z} = f(x)$.
+
+The *mean correlation coefficient* (MCC) evaluates the encoder by computing the best one-to-one matching between factors and codes:
+
+$$
+\text{MCC} = \max_{\pi \in S_d} \frac{1}{d} \sum_{i=1}^{d} |\text{corr}(z_i, \hat{z}_{\pi(i)})|
+$$
+
+When $\hat{z}_i = \alpha_i z_{\pi(i)}$ (axis-aligned), MCC $= 1$. Seems straightforward.
+
+## Where it breaks: rotation
+
+Now suppose the encoder applies an invertible linear mixing:
+
+$$
+\hat{z} = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} z
+$$
+
+This is an **information-preserving** transformation—both factors are fully recoverable via a linear readout. Yet MCC drops as $\theta$ increases:
+
+```python
+import numpy as np
+
+def mcc_at_angle(theta, n=10000):
+    z = np.random.randn(n, 2)
+    R = np.array([[np.cos(theta), -np.sin(theta)],
+                  [np.sin(theta),  np.cos(theta)]])
+    z_hat = z @ R.T
+
+    # Correlation matrix
+    C = np.abs(np.corrcoef(z.T, z_hat.T)[:2, 2:])
+
+    # Best matching (2x2: just check both permutations)
+    match1 = (C[0, 0] + C[1, 1]) / 2
+    match2 = (C[0, 1] + C[1, 0]) / 2
+    return max(match1, match2)
+
+# MCC at 0°: 1.000
+# MCC at 45°: 0.000 — a perfect encoder scores zero
+print(f"MCC at 0°:  {mcc_at_angle(0):.3f}")
+print(f"MCC at 45°: {mcc_at_angle(np.pi/4):.3f}")
+```
+
+At $\theta = 45°$, MCC is essentially zero. The metric says the encoder has failed completely, but the representation is **perfectly invertible**. This is a *structural false negative*: the encoder lies outside the metric's validity domain (axis-aligned equivalence class), and no amount of data will fix the score.
+
+## The takeaway
+
+The metric is not wrong within its intended scope. It was designed to test axis-aligned recovery. The problem arises when we use it as a general-purpose quality score for encoders whose geometry doesn't match that assumption.
+
+This is what we call **metric misspecification**—and it gets much worse with overcomplete encodings, correlated factors, and the kinds of distributed representations found in LLM activations.
+
+More in the paper: [When Identifiability Metrics Lie →](/publications)
