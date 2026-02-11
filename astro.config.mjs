@@ -6,7 +6,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
-  site: 'shrutij01.github.io',
+  site: 'https://shrutij01.github.io',
   integrations: [
     react(),
     mdx(),
