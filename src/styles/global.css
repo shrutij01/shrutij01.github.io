@@ -16,7 +16,7 @@
   }
 
   ::selection {
-    @apply bg-accent-200 dark:bg-accent-800/50;
+    @apply bg-purple-200 dark:bg-purple-800/50;
   }
 
   /* Smooth theme transition */
@@ -36,9 +36,9 @@
   }
 
   .link-underline {
-    @apply underline decoration-zinc-300 dark:decoration-zinc-600
-           underline-offset-4 hover:decoration-accent-500
-           dark:hover:decoration-accent-400 transition-colors;
+    @apply underline decoration-purple-300 dark:decoration-purple-700
+           underline-offset-4 hover:decoration-purple-500
+           dark:hover:decoration-purple-400 transition-colors;
   }
 
   .tag {
@@ -49,81 +49,99 @@
   }
 
   .tag-active {
-    @apply bg-accent-50 text-accent-700 border-accent-200
-           dark:bg-accent-950 dark:text-accent-300 dark:border-accent-800;
+    @apply bg-purple-50 text-purple-700 border-purple-200
+           dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800;
   }
 
   .card {
     @apply p-5 rounded-lg
-           border border-zinc-200 dark:border-zinc-800
-           bg-zinc-50/50 dark:bg-zinc-900/50
-           hover:border-zinc-300 dark:hover:border-zinc-700
+           border border-purple-100/60 dark:border-purple-800/20
+           bg-gradient-to-br from-purple-50/30 to-amber-50/20
+           dark:from-purple-950/20 dark:to-amber-950/10
+           hover:border-purple-200 dark:hover:border-purple-700/40
            transition-all duration-200;
   }
 
   .btn-primary {
     @apply inline-flex items-center gap-2 px-4 py-2
            text-sm font-medium rounded-lg
-           bg-accent-600 text-white hover:bg-accent-700
-           dark:bg-accent-500 dark:hover:bg-accent-400 dark:text-zinc-950
-           transition-colors;
+           text-white transition-all;
+    background: linear-gradient(135deg, #7c3aed, #9333ea, #a855f7);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #6d28d9, #7c3aed, #9333ea);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+  }
+
+  .dark .btn-primary {
+    background: linear-gradient(135deg, #a855f7, #c084fc);
+    color: #09090b;
+    box-shadow: 0 2px 8px rgba(168, 85, 247, 0.2);
+  }
+
+  .dark .btn-primary:hover {
+    background: linear-gradient(135deg, #c084fc, #d8b4fe);
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
   }
 
   .btn-ghost {
     @apply inline-flex items-center gap-2 px-3 py-1.5
            text-sm font-medium rounded-lg
            text-zinc-600 dark:text-zinc-400
-           hover:bg-zinc-100 dark:hover:bg-zinc-800
+           hover:bg-purple-50 dark:hover:bg-purple-950/30
+           hover:text-purple-700 dark:hover:text-purple-300
            transition-colors;
   }
 
   .paper-card {
-    @apply p-8 rounded-lg relative;
-    background: linear-gradient(to bottom right,
-      rgb(254, 252, 248) 0%,
-      rgb(250, 248, 244) 100%);
+    @apply p-8 rounded-xl relative;
+    background: linear-gradient(135deg,
+      rgb(250, 245, 255) 0%,
+      rgb(255, 253, 250) 50%,
+      rgb(254, 249, 239) 100%);
     box-shadow:
-      0 1px 3px rgba(0, 0, 0, 0.05),
-      0 4px 12px rgba(0, 0, 0, 0.03),
-      inset 0 0 0 1px rgba(139, 92, 63, 0.08);
+      0 1px 3px rgba(124, 58, 237, 0.06),
+      0 4px 16px rgba(124, 58, 237, 0.04),
+      inset 0 0 0 1px rgba(124, 58, 237, 0.1);
   }
 
   .dark .paper-card {
-    background: linear-gradient(to bottom right,
-      rgb(24, 24, 27) 0%,
-      rgb(18, 18, 20) 100%);
+    background: linear-gradient(135deg,
+      rgb(24, 18, 32) 0%,
+      rgb(18, 18, 22) 50%,
+      rgb(22, 20, 16) 100%);
     box-shadow:
       0 1px 3px rgba(0, 0, 0, 0.3),
-      0 4px 12px rgba(0, 0, 0, 0.2),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      0 4px 16px rgba(0, 0, 0, 0.2),
+      inset 0 0 0 1px rgba(168, 85, 247, 0.08);
   }
 
-  /* Paper texture overlay */
+  /* Subtle shimmer overlay */
   .paper-card::before {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background-image:
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(139, 92, 63, 0.01) 2px,
-        rgba(139, 92, 63, 0.01) 4px
-      );
+    background: linear-gradient(
+      135deg,
+      rgba(168, 85, 247, 0.03) 0%,
+      transparent 40%,
+      rgba(217, 179, 16, 0.03) 60%,
+      transparent 100%
+    );
     pointer-events: none;
   }
 
   .dark .paper-card::before {
-    background-image:
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(255, 255, 255, 0.01) 2px,
-        rgba(255, 255, 255, 0.01) 4px
-      );
+    background: linear-gradient(
+      135deg,
+      rgba(168, 85, 247, 0.05) 0%,
+      transparent 40%,
+      rgba(217, 179, 16, 0.04) 60%,
+      transparent 100%
+    );
   }
 }
 
@@ -135,19 +153,3 @@ pre {
 /* KaTeX overrides for dark mode */
 .dark .katex { color: theme('colors.zinc.200'); }
 .dark .katex .mord { color: theme('colors.zinc.200'); }
-
-/* Drop cap styling (lettrine-style) */
-.drop-cap::first-letter {
-  @apply float-left font-serif font-bold leading-none;
-  @apply text-accent-600 dark:text-accent-400;
-  font-family: 'Newsreader', Georgia, serif;
-  font-size: 4.5rem;
-  line-height: 0.8;
-  margin-right: 0.5rem;
-  margin-top: 0.15rem;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.dark .drop-cap::first-letter {
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-}
