@@ -5,33 +5,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="Your Name — AI Researcher">
   <!-- Hero -->
   <section class="pt-8 pb-16">
-    <div class="flex flex-col sm:flex-row gap-8 items-start">
-      <!-- Photo placeholder -->
-      <div class="shrink-0 w-28 h-28 rounded-xl bg-gradient-to-br from-accent-100 to-accent-200 dark:from-accent-900 dark:to-accent-800 flex items-center justify-center text-accent-500 dark:text-accent-400">
-        <svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" />
-        </svg>
-      </div>
+    <div class="paper-card">
+      <div class="flex flex-col sm:flex-row gap-8 items-start">
+        <!-- Photo -->
+        <img
+          src="/photo.jpg"
+          alt="Shruti Joshi"
+          class="shrink-0 w-28 h-28 rounded-xl object-cover ring-2 ring-accent-200 dark:ring-accent-800"
+        />
 
-      <div>
-        <h1 class="text-2xl sm:text-3xl font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">
-          Shruti Joshi
-        </h1>
-        <p class="mt-2 text-base text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed drop-cap">
-          Hi, I am a PhD student at <a href="https://mila.quebec" class="link-underline">Mila</a> and <a href="https://www.umontreal.ca" class="link-underline">Université de Montréal</a>, working on
-          operationalising <strong class="text-zinc-700 dark:text-zinc-200">identifiable representation learning</strong> and <strong class="text-zinc-700 dark:text-zinc-200">causal reasoning</strong> for
-          <strong class="text-zinc-700 dark:text-zinc-200">interpretability</strong> and control of large language models (LLMs).
-        </p>
-        <div class="mt-4 flex flex-wrap gap-3">
-          <a href="/publications" class="btn-primary">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-            </svg>
-            Publications
-          </a>
-          <a href="mailto:joshi.shruti@mila.quebec" class="btn-ghost">lastname.firstname@mila.quebec</a>
-          <a href="https://scholar.google.com/citations?user=ypwj0KwAAAAJ&hl=en" target="_blank" rel="noopener" class="btn-ghost">Google Scholar ↗</a>
-          <a href="https://github.com/shrutij01" target="_blank" rel="noopener" class="btn-ghost">GitHub ↗</a>
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">
+            Shruti Joshi
+          </h1>
+          <p class="mt-2 text-base text-zinc-700 dark:text-zinc-300 max-w-xl leading-relaxed drop-cap">
+            Hi, I am a PhD student at <a href="https://mila.quebec" class="link-underline">Mila</a> and <a href="https://www.umontreal.ca" class="link-underline">Université de Montréal</a>, working on
+            operationalising <strong class="text-zinc-800 dark:text-zinc-100">identifiable representation learning</strong> and <strong class="text-zinc-800 dark:text-zinc-100">causal reasoning</strong> for
+            <strong class="text-zinc-800 dark:text-zinc-100">interpretability</strong> and control of large language models (LLMs).
+          </p>
+          <div class="mt-4 flex flex-col gap-4">
+            <div class="flex flex-wrap gap-3">
+              <a href="/publications" class="btn-primary">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                </svg>
+                Publications
+              </a>
+              <a href="https://scholar.google.com/citations?user=ypwj0KwAAAAJ&hl=en" target="_blank" rel="noopener" class="btn-ghost">Google Scholar ↗</a>
+              <a href="https://github.com/shrutij01" target="_blank" rel="noopener" class="btn-ghost">GitHub ↗</a>
+            </div>
+            <div>
+              <a href="mailto:joshi.shruti@mila.quebec" class="btn-ghost">lastname.firstname@mila.quebec</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

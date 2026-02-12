@@ -38,7 +38,7 @@ npm run preview
 6. **`src/data/publications.ts`** — Add your publications with BibTeX
 7. **`src/content/blog/`** — Add MDX blog posts
 8. **`astro.config.mjs`** — Set your `site` URL (and `base` if using a repo subpath)
-9. **`public/favicon.svg`** — Replace with your own
+9. **`public/favicon.png`** — Replace with your own
 10. **Add your photo** — Replace the placeholder in index.astro with `<img src="/photo.jpg" ...>`
 
 ## Adding a Publication
