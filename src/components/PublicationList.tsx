@@ -31,7 +31,7 @@ function BibTexModal({ bibtex, onClose }: { bibtex: string; onClose: () => void 
         <div className="px-5 py-3 border-t border-zinc-100 dark:border-zinc-800 flex justify-end">
           <button
             onClick={handleCopy}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg bg-accent-600 text-white hover:bg-accent-700 dark:bg-accent-500 dark:hover:bg-accent-400 dark:text-zinc-950 transition-colors"
+            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 dark:bg-purple-500 dark:hover:bg-purple-400 dark:text-zinc-950 transition-colors"
           >
             {copied ? (
               <>
@@ -61,7 +61,7 @@ function PublicationCard({ pub }: { pub: Publication }) {
 
   return (
     <>
-      <div className={`group py-5 ${pub.highlight ? 'border-l-2 border-accent-400 dark:border-accent-500 pl-5 -ml-5' : ''}`}>
+      <div className={`group py-5 ${pub.highlight ? 'border-l-2 border-purple-400 dark:border-purple-500 pl-5 -ml-5' : ''}`}>
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
             <h3 className="text-base font-medium text-zinc-900 dark:text-zinc-100 leading-snug">
@@ -103,12 +103,12 @@ function PublicationCard({ pub }: { pub: Publication }) {
           ))}
           <span className="text-zinc-200 dark:text-zinc-700">|</span>
           {pub.links.map(({ label, href }) => (
-            <a
+            
               key={label}
               href={href}
               target="_blank"
               rel="noopener"
-              className="text-xs font-medium text-accent-600 dark:text-accent-400 hover:text-accent-800 dark:hover:text-accent-300 transition-colors"
+              className="text-xs font-medium text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 transition-colors"
             >
               {label} ↗
             </a>
@@ -123,6 +123,23 @@ function PublicationCard({ pub }: { pub: Publication }) {
       </div>
       {showBibtex && <BibTexModal bibtex={pub.bibtex} onClose={() => setShowBibtex(false)} />}
     </>
+  );
+}
+
+const PRIMARY_TAGS = ['method', 'evaluation'];
+
+function TagButton({ tag, active, onClick }: { tag: string; active: boolean; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`text-xs font-medium px-3 py-1 rounded-full border transition-colors ${
+        active
+          ? 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800'
+          : 'bg-zinc-50 text-zinc-500 border-zinc-200 dark:bg-zinc-900 dark:text-zinc-400 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600'
+      }`}
+    >
+      {tag}
+    </button>
   );
 }
 
@@ -154,31 +171,31 @@ export default function PublicationList({
 
   const years = Object.keys(grouped).map(Number).sort((a, b) => b - a);
 
+  const primaryTags = PRIMARY_TAGS.filter((t) => allTags.includes(t));
+  const secondaryTags = allTags.filter((t) => !PRIMARY_TAGS.includes(t));
+
   return (
     <div>
-      {/* Tag filters */}
-      <div className="flex flex-wrap gap-2 mb-8">
-        {allTags.map((tag) => (
-          <button
-            key={tag}
-            onClick={() => toggleTag(tag)}
-            className={`text-xs font-medium px-3 py-1 rounded-full border transition-colors ${
-              activeTags.has(tag)
-                ? 'bg-accent-50 text-accent-700 border-accent-200 dark:bg-accent-950 dark:text-accent-300 dark:border-accent-800'
-                : 'bg-zinc-50 text-zinc-500 border-zinc-200 dark:bg-zinc-900 dark:text-zinc-400 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600'
-            }`}
-          >
-            {tag}
-          </button>
-        ))}
-        {activeTags.size > 0 && (
-          <button
-            onClick={() => setActiveTags(new Set())}
-            className="text-xs text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 ml-1"
-          >
-            Clear
-          </button>
-        )}
+      {/* Tag filters — primary row then secondary */}
+      <div className="mb-8 space-y-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {primaryTags.map((tag) => (
+            <TagButton key={tag} tag={tag} active={activeTags.has(tag)} onClick={() => toggleTag(tag)} />
+          ))}
+          {activeTags.size > 0 && (
+            <button
+              onClick={() => setActiveTags(new Set())}
+              className="text-xs text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 ml-1"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {secondaryTags.map((tag) => (
+            <TagButton key={tag} tag={tag} active={activeTags.has(tag)} onClick={() => toggleTag(tag)} />
+          ))}
+        </div>
       </div>
 
       {/* Grouped by year */}
