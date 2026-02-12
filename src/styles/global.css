@@ -86,3 +86,10 @@ pre {
 /* KaTeX overrides for dark mode */
 .dark .katex { color: theme('colors.zinc.200'); }
 .dark .katex .mord { color: theme('colors.zinc.200'); }
+
+/* Drop cap styling (lettrine-style) */
+.drop-cap::first-letter {
+  @apply float-left text-6xl font-serif font-semibold leading-none mr-2 mt-1;
+  @apply text-accent-600 dark:text-accent-400;
+  font-family: 'Newsreader', Georgia, serif;
+}

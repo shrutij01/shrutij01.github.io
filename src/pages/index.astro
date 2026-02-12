@@ -15,15 +15,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <div>
         <h1 class="text-2xl sm:text-3xl font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">
-          Your Name
+          Shruti Joshi
         </h1>
-        <p class="mt-2 text-base text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed">
-          PhD student at <a href="#" class="link-underline">University</a>, working on
-          <strong class="text-zinc-700 dark:text-zinc-200">causal representation learning</strong>,
-          <strong class="text-zinc-700 dark:text-zinc-200">identifiability</strong>, and
-          <strong class="text-zinc-700 dark:text-zinc-200">mechanistic interpretability</strong> of neural networks.
-          I study when and why the internal representations of learned models
-          support reliable downstream inference.
+        <p class="mt-2 text-base text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed drop-cap">
+          Hi, I am a PhD student at <a href="https://mila.quebec" class="link-underline">Mila</a> and <a href="https://www.umontreal.ca" class="link-underline">Université de Montréal</a>, working on
+          operationalising <strong class="text-zinc-700 dark:text-zinc-200">identifiable representation learning</strong> and <strong class="text-zinc-700 dark:text-zinc-200">causal reasoning</strong> for
+          <strong class="text-zinc-700 dark:text-zinc-200">interpretability</strong> and control of large language models (LLMs).
         </p>
         <div class="mt-4 flex flex-wrap gap-3">
           <a href="/publications" class="btn-primary">
@@ -32,71 +29,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </svg>
             Publications
           </a>
-          <a href="mailto:your@email.com" class="btn-ghost">your@email.com</a>
-          <a href="https://scholar.google.com" target="_blank" rel="noopener" class="btn-ghost">Scholar ↗</a>
-          <a href="https://github.com" target="_blank" rel="noopener" class="btn-ghost">GitHub ↗</a>
+          <a href="mailto:joshi.shruti@mila.quebec" class="btn-ghost">lastname.firstname@mila.quebec</a>
+          <a href="https://scholar.google.com/citations?user=ypwj0KwAAAAJ&hl=en" target="_blank" rel="noopener" class="btn-ghost">Google Scholar ↗</a>
+          <a href="https://github.com/shrutij01" target="_blank" rel="noopener" class="btn-ghost">GitHub ↗</a>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- News / Updates -->
-  <section class="pb-12">
-    <h2 class="section-heading">Recent</h2>
-    <ul class="space-y-3 text-sm">
-      <li class="flex gap-3 items-baseline">
-        <span class="shrink-0 text-xs text-zinc-400 dark:text-zinc-500 font-mono w-20">2025.09</span>
-        <span class="text-zinc-700 dark:text-zinc-300">
-          Paper on metric misspecification accepted at <strong>NeurIPS 2025</strong>.
-        </span>
-      </li>
-      <li class="flex gap-3 items-baseline">
-        <span class="shrink-0 text-xs text-zinc-400 dark:text-zinc-500 font-mono w-20">2025.06</span>
-        <span class="text-zinc-700 dark:text-zinc-300">
-          Started internship at <strong>Anthropic</strong>, working on interpretability.
-        </span>
-      </li>
-      <li class="flex gap-3 items-baseline">
-        <span class="shrink-0 text-xs text-zinc-400 dark:text-zinc-500 font-mono w-20">2025.01</span>
-        <span class="text-zinc-700 dark:text-zinc-300">
-          Position paper on causal inference for interpretability accepted at <strong>ICML 2025</strong>.
-        </span>
-      </li>
-      <li class="flex gap-3 items-baseline">
-        <span class="shrink-0 text-xs text-zinc-400 dark:text-zinc-500 font-mono w-20">2024.09</span>
-        <span class="text-zinc-700 dark:text-zinc-300">
-          Started PhD at <strong>University</strong>.
-        </span>
-      </li>
-    </ul>
-  </section>
-
-  <!-- Selected work -->
-  <section class="pb-12">
-    <h2 class="section-heading">Selected Work</h2>
-    <div class="space-y-6">
-      <div class="card group">
-        <a href="/publications" class="block">
-          <h3 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">
-            When Identifiability Metrics Lie
-          </h3>
-          <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-            Standard evaluation metrics for identifiability produce systematic
-            false positives and negatives under common structural departures. NeurIPS 2025.
-          </p>
-        </a>
-      </div>
-      <div class="card group">
-        <a href="/publications" class="block">
-          <h3 class="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">
-            Causal Inference Meets Mechanistic Interpretability
-          </h3>
-          <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-            Pearl's causal hierarchy clarifies what mechanistic interpretability
-            studies can justify and where they overreach. ICML 2025.
-          </p>
-        </a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
