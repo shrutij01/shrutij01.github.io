@@ -9,7 +9,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <!-- Brief orienting paragraph -->
   <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl mb-12">
-    My research asks when learned representations provably recover the structure they need, how to tell when they have, and what goes wrong — in theory and in practice — when they haven't. The work spans identifiability theory, optimisation, evaluation methodology, and applications to LLM safety and multi-agent behaviour.
+    My research asks when learned representations provably recover semantically meaningful structure, and the corresponding practical payoff for interpretability and control. Below are brief teasers of the conceptual space around some of my recent and upcoming work.
   </p>
 
   <div class="space-y-14">
@@ -28,18 +28,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <div class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl space-y-3">
         <p>
-          Modern pretrained models learn representations that are empirically powerful but structurally opaque: we cannot say which latent variables they have recovered, whether those variables are unique, or what class of questions they license — associational, interventional, or counterfactual. Identifiable representation learning provides the mathematical foundation for answering these questions by guaranteeing uniqueness of latent variables under appropriate assumptions.
+          Pretrained models are powerful but difficult to adapt minimally to downstream tasks or to steer for counterfactual control. Identifiable representation learning provides a potentially useful mathematical foundation for both: by guaranteeing uniqueness of latent variables under appropriate assumptions, it specifies exactly what structure a representation contains, what can be intervened on independently, and what cannot.
         </p>
         <p>
-          My first project develops the <strong class="text-zinc-700 dark:text-zinc-300">Sparse Shift Autoencoder (SSAE)</strong>, which recovers identifiable concept vectors from LLM representations by imposing sparsity not on the concepts themselves, but on the distribution of concept shifts across paired observations. The key insight is that for a broad class of representations — including those learned by modern LLMs — this shift-sparsity constraint is sufficient for identifiability. We validate on multiple LLMs and leverage constrained optimisation for stable, scalable recovery of sparse structure.
+          Interpretability is thus the first application: if the recovered variables are provably unique, causal claims about circuits and features become testable. My first project develops the <strong class="text-zinc-700 dark:text-zinc-300">Sparse Shift Autoencoder (SSAE)</strong>, which recovers identifiable concept vectors from LLM representations by imposing sparsity not on the concepts themselves, but on the distribution of concept shifts across paired observations. This posits concepts naturally as factors varying in observed data, and does not require access to any privileged pairs; it works by uniformly sampling any two prompts. We validate SSAEs on multiple LLMs and leverage constrained optimisation for stable sparse optimisation across scale and choice of data.
         </p>
         <p>
-          In co-authored work, we probe the limits of existing interpretability tools from two directions: a multi-factor benchmark where sentiment, domain, and tense co-vary shows that disentanglement methods fail outright when concepts are correlated; a separate study distinguishes the linear representation hypothesis from linear separability and reveals systematic failures of unsupervised featurisers under distribution shift. Together, these results expose geometric and abstraction-level breakdowns in prevailing interpretability techniques, and motivate approaches that explicitly reason about concept geometry, causal structure, and identifiability.
+          Two co-authored studies probe where existing tools break. The first builds a multi-factor benchmark to study if concepts recovered by sparse autoencoders are isolated in single dimensions (they are not!). The second separates the linear representation hypothesis from linear separability and shows that amortised unsupervised featurisers degrade systematically under distribution shift. Both failures are structural and both point to the need for evaluation methods that account for concept geometry and identifiability rather than assuming them.
         </p>
       </div>
     </section>
 
-    <!-- 2. Optimisation -->
+    <!-- 2. Optimisation as a Bottleneck for Operationalising Identifiability-->
     <section>
       <div class="flex items-center gap-3 mb-3">
         <div class="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center text-amber-600 dark:text-amber-400">
@@ -53,15 +53,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <div class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl space-y-3">
         <p>
-          Identifiability is a property of the statistical model. Whether training actually reaches an identifiable solution is a question about optimisation — and the answer is frequently no. A central finding from my experiments is that even when identifiability is theoretically guaranteed, gradient-based training fails to reach the identifiable solution basin because the optimisation trajectory never realises the sufficient conditions required for recovery. The effective hypothesis class becomes restricted in ways that prevent convergence to the correct solution, while an over-parameterised but improperly constrained system can achieve low predictive loss on training data yet produce representations that are geometrically wrong and fail under distribution shift.
-        </p>
-        <p>
-          This problem sits outside the scope of traditional statistical learning theory, which analyses generalisation error and statistical risk but not the structural quality of the learned representation — here understood through its degree of identifiability. I aim to characterise how architectural design, deliberate over-parameterisation, and the implicit biases of optimisation algorithms interact to determine whether identifiable solutions are accessible to training dynamics. This includes deriving empirical scaling laws for identifiability error as a function of dataset size, parameter count, and optimisation trajectory — analogous to classical scaling laws, but measuring recoverability of latent structure rather than predictive loss.
+          Achieving identifiability in practice in unsupervised representation learning is also constrained by optimisation bottlenecks. If we assume the quality of a representation to be indicated by its degree of identifiability (and not predictive loss as in supervised learnig), we need to study its variations in an analogous manner to how generalisation error is studied, while leveraging the benefits of over-parameterisation, which is uncommon in identifiable representation learning. In a limited set of experiments, I have observed that constrained optimisation helps, ensuring stable hyperparameter transfer. The open problem is characterising how parameterisation, architecture, and optimiser bias jointly determine reachability of identifiable solutions, and deriving scaling laws for identifiability error analogous to those for predictive loss.
         </p>
       </div>
     </section>
 
-    <!-- 3. Evaluation -->
+    <!-- 3. Evaluating Identifiability on Real-World Data -->
     <section>
       <div class="flex items-center gap-3 mb-3">
         <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
@@ -75,10 +72,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <div class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl space-y-3">
         <p>
-          Widely used evaluation metrics — MCC, DCI, R² — conflate properties of the data distribution with properties of the learner, and therefore fail to assess the structural quality of a representation. The core difficulty is that these metrics rest on restrictive assumptions about what a good representation looks like. In practice, useful representations injectively encode the underlying factors through nonlinear transformations, or distribute a single factor across multiple latent dimensions — correlation-based metrics cannot faithfully evaluate either case. They also fail when the ground-truth factors are themselves strongly correlated, precisely the regime where theory still guarantees recoverability but empirical evaluation becomes misleading. Worse, in realistic domains where ground truth is unavailable, these metrics implicitly assume the learned representation must match a fixed "true" latent dimensionality, even though this quantity is neither observable nor well-defined. Models that benefit from over-parameterisation — a pattern central to modern deep learning — are penalised simply because they violate assumptions hard-coded into the metric.
-        </p>
-        <p>
-          My research reframes evaluation through testable implications aligned with the hierarchy of questions a representation should support. At the associational level: metrics invariant to invertible transformations and sensitive to informational sufficiency rather than coordinate alignment. At the interventional level: whether learned latents support stable, compositional interventions. At the counterfactual level: whether abstracted latent variables support coherent hypothetical reasoning in the presence of correlated or redundant factors. The approach is to construct controlled task families that assess what the representation knows, without requiring access to unobserved ground truth.
+          Widely used evaluation metrics for assessing identifiability conflate properties of the data distribution with properties of the encoding function, and therefore fail to assess the structural quality of a representation. The core difficulty is that these metrics rest on restrictive assumptions about what a good representation looks like. In practice, useful representations may distribute a single factor across multiple latent dimensions. They also fail when the ground-truth factors are themselves strongly correlated, precisely the regime where theory still guarantees recoverability but empirical evaluation becomes misleading. Worse, in realistic domains where ground truth is unavailable (such as in interpretability research), these metrics implicitly assume the learned representation must match a fixed "true" latent dimensionality, even though this quantity is neither observable nor well-defined. Models that benefit from over-parameterisation are penalised simply because they violate assumptions hard-coded into the metric. My research reframes evaluation through testable implications aligned with the hierarchy of questions a representation should support. The approach is to construct controlled task families that assess what the representation knows, without requiring access to unobserved ground truth.
         </p>
       </div>
     </section>
@@ -101,11 +95,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </p>
         <p>
           <strong class="text-zinc-700 dark:text-zinc-300">Jailbreak mechanisms.</strong>
-          LLMs remain vulnerable to jailbreaks, but little is known about the internal mechanisms that differentiate safe from adversarial behaviour. The key observation is that while jailbreaks are mediated by dense perturbations in input text space, the corresponding changes in latent space should be relatively sparse — making them amenable to identifiable decomposition via SSAEs. A specific question is where in the network safety-relevant information is represented versus discarded: because next-token prediction must preserve grammatical and discourse coherence, safety-related structure may be suppressed in early layers while coherence-related structure propagates to later ones. We contrast embeddings across token positions and layers, and evaluate whether recovered features are genuinely identifiable through controlled task families rather than post-hoc matching to human-interpretable labels.
+          LLMs remain vulnerable to jailbreaks, but little is known about the internal mechanisms that differentiate safe from adversarial behaviour. The key observation is that while jailbreaks are mediated by dense perturbations in input text space, the corresponding changes in latent space should be relatively sparse, making them amenable to identifiable decomposition (such as via SSAEs). Where is such safety-relevant information stored in the network (non-localised) to be reliably controlled at the appropriate level of abstraction?
         </p>
         <p>
           <strong class="text-zinc-700 dark:text-zinc-300">Multi-agent cooperation.</strong>
-          When LLMs are deployed as interacting agents, success depends on whether they internalise behavioural strategies or mimic surface patterns. Using in-context imitation learning as a diagnostic — supplying multi-turn demonstrations of expert policies in text-based social dilemmas such as the iterated Prisoner's Dilemma — we generate trajectory families converging on cooperative versus defective behaviour, feed them to a monitor LLM, and contrast hidden-state embeddings to extract latent shifts corresponding to the underlying strategies. The central question is whether LLMs encode identifiable behavioural vectors that generalise across model families, episodes, and dialogue contexts, and whether these vectors can be used to steer cooperation at test time.
+          When LLMs act as interacting agents in social dilemmas, do they internalise behavioural strategies such as cooperation, defection, reciprocity? Do LLMs encode identifiable behavioural vectors that generalise across model families and dialogue contexts that can be manipulated to control their behaviour in multi-agent settings?
         </p>
       </div>
     </section>
