@@ -81,7 +81,7 @@ export const publications: Publication[] = [
     authors: 'Muhammad Waleed Gondal, Shruti Joshi, Nasim Rahaman, Stefan Bauer, Manuel Wüthrich, Bernhard Schölkopf',
     venue: 'ICML',
     year: 2021,
-    tags: ['meta-learning', 'self-supervised-learning', 'method'],
+    tags: ['self-supervised-learning', 'generalisation', 'method'],
     links: [
       { label: 'Paper', href: 'https://proceedings.mlr.press/v139/gondal21a.html' },
     ],
@@ -101,7 +101,7 @@ export const publications: Publication[] = [
     authors: 'Nasim Rahaman, Muhammad Waleed Gondal, Shruti Joshi, Peter Gehler, Yoshua Bengio, Francesco Locatello, Bernhard Schölkopf',
     venue: 'NeurIPS',
     year: 2021,
-    tags: ['compositional-reasoning', 'systematic-generalisation', 'method'],
+    tags: ['generalisation', 'method'],
     links: [
       { label: 'Paper', href: 'https://proceedings.neurips.cc/paper/2021/hash/5a7b238ba0f6502e5d6be14424b20ded-Abstract.html' },
     ],
@@ -121,7 +121,7 @@ export const publications: Publication[] = [
     authors: 'Arnav Kumar Jain, Shivakanth Sujit, Shruti Joshi, Vincent Michalski, Danijar Hafner, Samira Ebrahimi Kahou',
     venue: 'NeurIPS',
     year: 2022,
-    tags: ['world-models', 'sparse-gating', 'reinforcement-learning', 'method'],
+    tags: ['world-models', 'reinforcement-learning', 'method'],
     links: [
       { label: 'Paper', href: 'https://proceedings.neurips.cc/paper_files/paper/2022/hash/09b69d38e95d8c37bb870dde1fb7ed09-Abstract-Conference.html' },
     ],
@@ -141,7 +141,7 @@ export const publications: Publication[] = [
     authors: 'Mohan Krishna Nutalapati, Shruti Joshi, Ketan Rajawat',
     venue: 'ICRA',
     year: 2019,
-    tags: ['robotics', 'trajectory-optimization', 'online-learning', 'method'],
+    tags: ['robotics', 'convex-optimization', 'online-learning', 'method'],
     links: [
       { label: 'Paper', href: 'https://ieeexplore.ieee.org/document/8794161' },
     ],

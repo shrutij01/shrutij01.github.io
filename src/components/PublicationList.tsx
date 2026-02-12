@@ -103,7 +103,7 @@ function PublicationCard({ pub }: { pub: Publication }) {
           ))}
           <span className="text-zinc-200 dark:text-zinc-700">|</span>
           {pub.links.map(({ label, href }) => (
-            
+            <a
               key={label}
               href={href}
               target="_blank"
@@ -126,7 +126,7 @@ function PublicationCard({ pub }: { pub: Publication }) {
   );
 }
 
-const PRIMARY_TAGS = ['method', 'evaluation'];
+const PRIMARY_TAGS = ['method', 'evaluation', 'software-package'];
 
 function TagButton({ tag, active, onClick }: { tag: string; active: boolean; onClick: () => void }) {
   return (
