@@ -19,8 +19,8 @@ export const publications: Publication[] = [
     title: 'Causality is Key for Interpretability Claims to Generalise',
     authors: 'Shruti Joshi, Aaron Mueller, David Klindt, Wieland Brendel, Patrik Reizinger, Dhanya Sridhar',
     venue: 'arXiv preprint',
-    year: 2025,
-    tags: ['interpretability', 'causal-representation-learning', 'sparse-autoencoders', 'generalisation', 'analysis'],
+    year: 2026,
+    tags: ['interpretability', 'identifiable-representation-learning', 'causality', 'sparse-autoencoders', 'generalisation', 'evaluation'],
     highlight: true,
     links: [
       { label: 'arXiv', href: 'https://arxiv.org/abs/2602.16698' },
@@ -42,7 +42,7 @@ export const publications: Publication[] = [
     authors: 'Shruti Joshi, Andrea Dittadi, Sébastien Lachapelle, Dhanya Sridhar',
     venue: 'arXiv preprint',
     year: 2025,
-    tags: ['interpretability', 'causal-representation-learning', 'sparse-autoencoders', 'method'],
+    tags: ['interpretability', 'identifiable-representation-learning', 'causality', 'sparse-autoencoders', 'method'],
     highlight: true,
     links: [
       { label: 'arXiv', href: 'https://arxiv.org/abs/2502.12179' },
@@ -62,7 +62,7 @@ export const publications: Publication[] = [
     authors: 'Aaron Mueller, Andrew Lee, Shruti Joshi, Ekdeep Singh Lubana, Dhanya Sridhar, Patrik Reizinger',
     venue: 'arXiv preprint',
     year: 2025,
-    tags: ['interpretability', 'causal-representation-learning', 'sparse-autoencoders', 'evaluation'],
+    tags: ['interpretability', 'identifiable-representation-learning', 'causality', 'sparse-autoencoders', 'evaluation'],
     highlight: false,
     links: [
       { label: 'arXiv', href: 'https://arxiv.org/abs/2512.15134' },
@@ -84,7 +84,7 @@ export const publications: Publication[] = [
     authors: 'Shruti Joshi, Felix Widmaier, Vaibhav Agrawal, Manuel Wüthrich',
     venue: 'GitHub',
     year: 2020,
-    tags: ['software-package', 'robotics'],
+    tags: ['software-package', 'robotics', 'reinforcement-learning'],
     links: [
       { label: 'Code', href: 'https://github.com/open-dynamic-robot-initiative/trifinger_simulation' },
       { label: 'Paper', href: 'https://corlconf.github.io/corl2020/paper_421/' },
