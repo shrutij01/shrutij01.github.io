@@ -21,7 +21,7 @@ export const publications: Publication[] = [
     venue: 'Under submission to UAI\'26',
     year: 2026,
     tags: ['interpretability', 'sparse-autoencoders', 'generalisation', 'evaluation'],
-    highlight: true,
+    highlight: false,
     links: [
       { label: 'PDF', href: '/Sparse_OOD-3.pdf' },
     ],
@@ -39,7 +39,7 @@ export const publications: Publication[] = [
     venue: 'Under submission to UAI\'26',
     year: 2026,
     tags: ['identifiable-representation-learning', 'evaluation'],
-    highlight: true,
+    highlight: false,
     links: [
       { label: 'PDF', href: '/unsup_overcomplete_evals-3.pdf' },
     ],
