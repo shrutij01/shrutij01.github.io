@@ -15,6 +15,42 @@ export interface Publication {
 
 export const publications: Publication[] = [
   {
+    id: 'pacela2026stopprobing',
+    title: 'Stop Probing, Start Coding: Why Linear Probes and Sparse Autoencoders Fail at Compositional Generalization',
+    authors: 'Vitória Barin Pacela*, Shruti Joshi*, Isabela Camacho, Simon Lacoste-Julien, David Klindt',
+    venue: 'Under submission to UAI\'26',
+    year: 2026,
+    tags: ['interpretability', 'sparse-autoencoders', 'generalisation', 'evaluation'],
+    highlight: true,
+    links: [
+      { label: 'PDF', href: '/Sparse_OOD-3.pdf' },
+    ],
+    bibtex: `@misc{pacela2026stopprobing,
+  title={Stop Probing, Start Coding: Why Linear Probes and Sparse Autoencoders Fail at Compositional Generalization},
+  author={Vitória Barin Pacela and Shruti Joshi and Isabela Camacho and Simon Lacoste-Julien and David Klindt},
+  year={2026},
+}`,
+    abstract: 'The linear representation hypothesis states that neural network activations encode high-level concepts as linear mixtures. However, under superposition, when the number of concepts exceeds the activation dimension, recovering underlying latent factors from the activations requires sparse nonlinear inference, making methods such as linear probes insufficient. In this setting, classical sparse coding methods with per-sample iterative inference leverage compressed sensing guarantees to recover latent factors. Sparse autoencoders (SAEs), on the other hand, perform nonlinear inference, but amortise it into a fixed encoder, introducing a systematic amortisation gap. We show this gap persists as the number of training samples is increased, causing SAEs to fail under out-of-distribution (OOD) compositional shifts. Our results demonstrate that the recent OOD failures of SAEs can be attributed to amortisation failures: per-sample inference at test time substantially improves OOD performance, even when using a dictionary learned by an SAE.',
+  },
+  {
+    id: 'joshi2026whoguards',
+    title: 'Who Guards the Guardians? The Challenges of Evaluating Identifiability of Learned Representations',
+    authors: 'Shruti Joshi, Théo Saulus, Wieland Brendel, Philippe Brouillard, Dhanya Sridhar, Patrik Reizinger',
+    venue: 'Under submission to UAI\'26',
+    year: 2026,
+    tags: ['identifiable-representation-learning', 'evaluation'],
+    highlight: true,
+    links: [
+      { label: 'PDF', href: '/unsup_overcomplete_evals-3.pdf' },
+    ],
+    bibtex: `@misc{joshi2026whoguards,
+  title={Who Guards the Guardians? The Challenges of Evaluating Identifiability of Learned Representations},
+  author={Shruti Joshi and Théo Saulus and Wieland Brendel and Philippe Brouillard and Dhanya Sridhar and Patrik Reizinger},
+  year={2026},
+}`,
+    abstract: 'Identifiability in representation learning is commonly evaluated using standard metrics (e.g., MCC, R², DCI) on synthetic benchmarks with known ground-truth factors. These metrics are assumed to reflect recovery up to the equivalence class guaranteed by identifiability theory. We show that this assumption holds only under specific structural conditions: each metric implicitly encodes assumptions about both the data-generating process (DGP) and the encoder. When these assumptions are violated, metrics become misspecified and can produce systematic false positives and false negatives. Such failures occur both within classical identifiability regimes and in post-hoc settings where identifiability is most needed. We introduce a taxonomy separating DGP assumptions from encoder geometry, use it to characterize the validity domains of existing metrics, and release an evaluation suite for reproducible stress testing and comparison.',
+  },
+  {
     id: 'joshi2026causalitykeyinterpretabilityclaims',
     title: 'Causality is Key for Interpretability Claims to Generalise',
     authors: 'Shruti Joshi, Aaron Mueller, David Klindt, Wieland Brendel, Patrik Reizinger, Dhanya Sridhar',
