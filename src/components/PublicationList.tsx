@@ -68,7 +68,13 @@ function PublicationCard({ pub }: { pub: Publication }) {
               {pub.title}
             </h3>
             <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-              {pub.authors}
+              {pub.authors.split(/(Shruti Joshi)/).map((part, i) =>
+                part === 'Shruti Joshi' ? (
+                  <span key={i} className="font-bold underline">{part}</span>
+                ) : (
+                  <span key={i}>{part}</span>
+                )
+              )}
             </p>
             <p className="mt-0.5 text-sm">
               <span className="text-zinc-600 dark:text-zinc-300 font-medium">{pub.venue}</span>
