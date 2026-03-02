@@ -41,7 +41,7 @@ export const publications: Publication[] = [
     tags: ['identifiable-representation-learning', 'evaluation'],
     highlight: false,
     links: [
-      { label: 'PDF', href: '/unsup_overcomplete_evals-3.pdf' },
+      { label: 'arXiv', href: 'http://arxiv.org/abs/2602.24278' },
     ],
     bibtex: `@misc{joshi2026whoguards,
   title={Who Guards the Guardians? The Challenges of Evaluating Identifiability of Learned Representations},
