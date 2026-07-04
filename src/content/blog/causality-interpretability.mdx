@@ -1,0 +1,114 @@
+---
+title: "What Question Is Your Evidence Answering?"
+slug: "causality-interpretability"
+date: "2026-07-04"
+description: "Interpretability claims routinely outrun their evidence. Causal inference tells you exactly when — and identifiability tells you how many answers your evidence actually admits. An interactive tour of our ICML 2026 position paper."
+tags: ["interpretability", "causality", "identifiability", "ICML 2026"]
+---
+
+import CausalLadderDemo from '../../components/CausalLadderDemo.tsx';
+import ClaimDiagnosis from '../../components/ClaimDiagnosis.tsx';
+
+<div className="not-prose rounded-xl border border-accent-200 dark:border-accent-900 bg-accent-50/60 dark:bg-accent-950/30 px-5 py-4 my-6">
+  <div className="text-[11px] font-semibold tracking-widest uppercase text-accent-700 dark:text-accent-400 mb-1">ICML 2026 · Position Paper · Seoul</div>
+  <div className="text-[15px] font-semibold text-zinc-900 dark:text-zinc-100">Causality Is Key for Interpretability Claims to Generalise</div>
+  <div className="text-[13px] text-zinc-500 dark:text-zinc-400 mt-1">Shruti Joshi · Aaron Mueller · David Klindt · Wieland Brendel · Patrik Reizinger · Dhanya Sridhar</div>
+  <div className="text-[13px] mt-2"><a href="https://arxiv.org/abs/2602.16698" className="text-accent-600 dark:text-accent-400 underline decoration-accent-300">arXiv:2602.16698</a> · <a href="#checklist" className="text-accent-600 dark:text-accent-400 underline decoration-accent-300">diagnose your claim ↓</a></div>
+</div>
+
+A linear probe reads refusal from your model's activations with 98% accuracy. You steer along that direction — behaviour shifts. You ship the finding: *the model encodes refusal in this layer.* Three weeks later the steering vector miscalibrates out of distribution, the probe fails under a paraphrase, and an ablation that suppressed the behaviour on your test set does nothing on the deployment traffic.
+
+This isn't bad luck. It's a **category error about evidence**, and it has a hundred-year-old diagnosis.
+
+## Every interpretability question sits on a rung
+
+Causal inference sorts questions into Pearl's three-rung hierarchy: **associational** (what correlates with what), **interventional** (what happens if I manipulate this), and **counterfactual** (what *would have* happened, for this very input, under an unobserved change). Different rungs demand different evidence, and evidence from a lower rung cannot license claims from a higher one — no matter how much of it you collect.
+
+Interpretability methods sit on this ladder whether they acknowledge it or not: probing is associational; ablation, patching, and steering are interventional; "the feature *means* X" and "*the* circuit computing Y" are counterfactual-strength claims about uniqueness and semantics.
+
+The second question is the one the field skips: even at the right rung, **how many answers are consistent with your evidence?** Try both questions below.
+
+<CausalLadderDemo client:visible />
+
+The cloud is the point: evidence doesn't hand you *the* answer, it rules answers out. Climbing rungs shrinks the set. What remains at the top is still an **equivalence class** — and whether it collapses to a single answer *up to harmless symmetries* is exactly the question of **identifiability**.
+
+## One claim, two gaps
+
+<div id="animations" />
+
+Take the claim from the opening story — *"the model encodes refusal in this layer."* It fails in two independent ways, and they compound.
+
+<video controls loop muted playsInline className="rounded-lg border border-zinc-200 dark:border-zinc-800 w-full my-4" src="/causality/animation-2.mp4" />
+
+**Gap 1 — the rung gap.** The claim, as used downstream (steer it! edit it!), requires interventional evidence: *the model uses this direction in its computation.* The method provides associational evidence: *a probe fires on refusal prompts.* Decodability does not imply model use — the probe may exploit token length, position artefacts, or any confounder that co-varies with refusal.
+
+**Gap 2 — the identification gap.** The claim says **the** direction, as if the data singled one out. But multiple probes and SAE features decode refusal equally well. The evidence defines an equivalence class of solutions; the method returned *one member* of it, chosen by initialisation and optimiser quirks.
+
+The ladder animation, for completeness:
+
+<video controls loop muted playsInline className="rounded-lg border border-zinc-200 dark:border-zinc-800 w-full my-4" src="/causality/animation-1.mp4" />
+
+## We audited 186 claims
+
+We annotated 50 interpretability papers — 186 claims about model internals — assigning each a *method rung* (what the experiment establishes) and a *claim rung* (what the surrounding language asserts).
+
+<div className="not-prose flex items-baseline gap-6 my-6">
+  <div><span className="text-4xl font-bold text-accent-600 dark:text-accent-400">50</span> <span className="text-sm text-zinc-500">papers</span></div>
+  <div><span className="text-4xl font-bold text-accent-600 dark:text-accent-400">186</span> <span className="text-sm text-zinc-500">claims</span></div>
+  <div><span className="text-4xl font-bold text-accent-600 dark:text-accent-400">≈½</span> <span className="text-sm text-zinc-500">admit stronger readings than the evidence licenses</span></div>
+</div>
+
+The patterns are systematic, not sloppy: patching results (L2) narrated with counterfactual verbs ("encodes", "THE circuit"); probing findings (L1) with interventional ones; single-distribution results generalised past their scope. This reflects missing terminological infrastructure, not unreliable science — which is exactly why a shared causal vocabulary helps.
+
+## Why low loss can't identify anything
+
+Here is the part that is a theorem rather than a taxonomy. A method learns a representation $\mathbf{h} = \phi(\mathbf{a})$ from activations $\mathbf{a}$, and the claim is that $\mathbf{h}$ recovers concepts $\mathbf{c}$. But for any invertible map $v$, the pair $(\phi' , \psi') = (v \circ \phi, \psi \circ v^{-1})$ achieves exactly the same reconstruction loss — the objective cannot distinguish a solution from its remixes. Without additional structure, unsupervised recovery of latents is impossible (Hyvärinen & Pajunen, 1999; Locatello et al., 2019). Reconstruction plus sparsity is a useful inductive bias, not an identification guarantee.
+
+**Causal representation learning** (CRL) supplies the missing structure: interventions, paired contexts, sparsity of *changes*. Under such conditions the recovered representation is unique up to permutation and scaling,
+
+$$
+\hat{\mathbf{c}} = \mathbf{P}\boldsymbol{\Lambda}\mathbf{c},
+$$
+
+where $\mathbf{P}$ is a permutation and $\boldsymbol{\Lambda}$ a diagonal scaling — the latent is pinned down *as a set of axes*, with only harmless relabelling left over. Sparse shift autoencoders (SSAEs) realise this recipe on LLM activations: paired samples over uniformly sampled contexts identify the varied latents (Joshi et al., 2025).
+
+**Identifiability is interaction-relative.** Two iron filings — one magnetised, one not — are indistinguishable under looking, weighing, lifting. Bring a magnet and the difference is suddenly visible. What a method can identify is bounded by the interactions it affords; probing, patching, and steering are different magnets, and a representation may show structure only under the right one.
+
+## The research programme
+
+The failure modes above are addressable, and each direction pairs a CRL tool with an interpretability testbed: **counterfactual safety** (when does activation patching coincide with a true counterfactual — and what minimal annotation restores the correspondence where it doesn't?); **task-relative identification** (steering may need only blockwise identifiability, editing needs elementwise — demand no more than the task requires); **compositional control** (task vectors compose, model edits don't — when do interventions compose, and does stronger identification predict it?); and **transportability** (edit failures under shift are transportability violations — predict which prompts an edit survives *before* deploying it).
+
+## Diagnose your claim
+
+<div id="checklist" />
+
+The paper ships a practitioners' checklist (§G.6). Here is the 60-second version — four answers, instant verdict:
+
+<ClaimDiagnosis client:visible />
+
+<details className="my-4">
+  <summary className="cursor-pointer text-sm font-semibold">The full seven-item checklist from the paper</summary>
+  <ol className="text-sm mt-2">
+    <li><strong>Estimand.</strong> "I am measuring ___" — e.g., probe accuracy for *is-plural* on layer-8 residual stream.</li>
+    <li><strong>Method rung.</strong> Probing → associational; patching → interventional; interchange interventions → counterfactual.</li>
+    <li><strong>Claim rung.</strong> "encodes" → associational; "causes" → interventional; "would have changed" → counterfactual.</li>
+    <li><strong>Rung check.</strong> Method rung ≥ claim rung? If not: strengthen the method or weaken the claim.</li>
+    <li><strong>Alternatives not ruled out.</strong> What else produces this evidence? (Token length, other circuits…)</li>
+    <li><strong>Robustness.</strong> Varied prompts, seeds, ablation strategies (zero / mean / resample)?</li>
+    <li><strong>Scope.</strong> "This applies to ___ (and not beyond)."</li>
+  </ol>
+</details>
+
+## Cite
+
+```bibtex
+@inproceedings{joshi2026causality,
+  title     = {Position: Causality Is Key for Interpretability Claims to Generalise},
+  author    = {Joshi, Shruti and Mueller, Aaron and Klindt, David and Brendel, Wieland
+               and Reizinger, Patrik and Sridhar, Dhanya},
+  booktitle = {International Conference on Machine Learning},
+  year      = {2026}
+}
+```
+
+*Poster: East Exhibition Hall, ICML 2026, Seoul. Come argue with us about rungs.*

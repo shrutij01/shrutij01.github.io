@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AlignmentDiagrams from '../components/AlignmentDiagrams.tsx';
 ---
 
 <BaseLayout title="Demos — Shruti Joshi">
@@ -10,9 +11,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     Explorable explanations of concepts from my research.
   </p>
 
-  <div class="py-16 text-center">
-    <p class="text-sm text-zinc-400 dark:text-zinc-500">
-      Coming soon
-    </p>
+  <div class="py-6">
+    <AlignmentDiagrams client:load />
   </div>
 </BaseLayout>
