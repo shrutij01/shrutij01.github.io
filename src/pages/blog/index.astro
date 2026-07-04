@@ -1,5 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const modules = import.meta.glob('../../content/blog/*.mdx', { eager: true });
+const posts = Object.values(modules)
+  .map((m: any) => m.frontmatter)
+  .filter((fm: any) => fm?.slug)
+  .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
 
 <BaseLayout title="Blog — Shruti Joshi">
@@ -10,9 +16,30 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     Notes on research, technical write-ups, and things I've learned.
   </p>
 
-  <div class="py-16 text-center">
-    <p class="text-sm text-zinc-400 dark:text-zinc-500">
-      Coming soon
-    </p>
-  </div>
+  {posts.length === 0 ? (
+    <div class="py-16 text-center">
+      <p class="text-sm text-zinc-400 dark:text-zinc-500">Coming soon</p>
+    </div>
+  ) : (
+    <ul class="space-y-10">
+      {posts.map((post: any) => (
+        <li>
+          <a href={`/blog/${post.slug}`} class="group block">
+            <h2 class="text-lg font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">
+              {post.title}
+            </h2>
+            <div class="mt-1.5 flex flex-wrap items-center gap-3">
+              <time class="text-xs text-zinc-400 dark:text-zinc-500 font-mono">{post.date}</time>
+              {post.tags?.map((tag: string) => (
+                <span class="tag text-[10px]">{tag}</span>
+              ))}
+            </div>
+            <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+              {post.description}
+            </p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
 </BaseLayout>
