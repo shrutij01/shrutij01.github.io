@@ -150,6 +150,16 @@ pre {
   @apply !rounded-lg !border !border-zinc-200 dark:!border-zinc-800;
 }
 
+/* Code inside pre blocks: inherit Shiki's theme colors.
+   Without this, prose-code:* utilities (inline-code styling) also hit
+   pre > code and paint a light background under light syntax text. */
+.prose pre code {
+  background-color: transparent !important;
+  padding: 0 !important;
+  color: inherit;
+  font-size: 0.8rem;
+}
+
 /* KaTeX overrides for dark mode */
 .dark .katex { color: theme('colors.zinc.200'); }
 .dark .katex .mord { color: theme('colors.zinc.200'); }

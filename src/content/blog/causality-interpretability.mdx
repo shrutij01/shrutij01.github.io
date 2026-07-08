@@ -2,12 +2,18 @@
 title: "What Question Is Your Evidence Answering?"
 slug: "causality-interpretability"
 date: "2026-07-04"
-description: "Interpretability claims routinely outrun their evidence. Causal inference tells you exactly when — and identifiability tells you how many answers your evidence actually admits. An interactive tour of our ICML 2026 position paper."
+description: "Interpretability claims routinely outrun their evidence. Causal inference says when, and identifiability says how many answers the evidence admits. An interactive tour of our ICML 2026 position paper."
 tags: ["interpretability", "causality", "identifiability", "ICML 2026"]
 ---
 
 import CausalLadderDemo from '../../components/CausalLadderDemo.tsx';
 import ClaimDiagnosis from '../../components/ClaimDiagnosis.tsx';
+import RotationDial from '../../components/RotationDial.tsx';
+import ClaimLinter from '../../components/ClaimLinter.tsx';
+import ClaimsStudyChart from '../../components/ClaimsStudyChart.tsx';
+import GapTaxonomy from '../../components/GapTaxonomy.tsx';
+import GuessTheGap from '../../components/GuessTheGap.tsx';
+import ArcProgress from '../../components/ArcProgress.tsx';
 
 <div className="not-prose rounded-xl border border-accent-200 dark:border-accent-900 bg-accent-50/60 dark:bg-accent-950/30 px-5 py-4 my-6">
   <div className="text-[11px] font-semibold tracking-widest uppercase text-accent-700 dark:text-accent-400 mb-1">ICML 2026 · Position Paper · Seoul</div>
@@ -16,33 +22,37 @@ import ClaimDiagnosis from '../../components/ClaimDiagnosis.tsx';
   <div className="text-[13px] mt-2"><a href="https://arxiv.org/abs/2602.16698" className="text-accent-600 dark:text-accent-400 underline decoration-accent-300">arXiv:2602.16698</a> · <a href="#checklist" className="text-accent-600 dark:text-accent-400 underline decoration-accent-300">diagnose your claim ↓</a></div>
 </div>
 
-A linear probe reads refusal from your model's activations with 98% accuracy. You steer along that direction — behaviour shifts. You ship the finding: *the model encodes refusal in this layer.* Three weeks later the steering vector miscalibrates out of distribution, the probe fails under a paraphrase, and an ablation that suppressed the behaviour on your test set does nothing on the deployment traffic.
+A linear probe reads refusal from your model's activations with 98% accuracy. Steering along the probe direction shifts behaviour, so you write up the finding: the model encodes refusal in this layer. Three weeks later the steering vector miscalibrates on out-of-distribution prompts, the probe fails under paraphrase, and an ablation that suppressed the behaviour in testing does nothing on deployment traffic.
 
-This isn't bad luck. It's a **category error about evidence**, and it has a hundred-year-old diagnosis.
+Failures of this kind are predictable at submission time. The claim asked for more than the evidence provided, and causal inference has precise vocabulary for the mismatch.
+
+This post is built around four exercises. Place evidence on its rung, see why a low loss identifies nothing, score yourself against 186 annotated claims from the literature, and rewrite a claim so the language matches the method.
+
+<ArcProgress client:load />
 
 ## Every interpretability question sits on a rung
 
-Causal inference sorts questions into Pearl's three-rung hierarchy: **associational** (what correlates with what), **interventional** (what happens if I manipulate this), and **counterfactual** (what *would have* happened, for this very input, under an unobserved change). Different rungs demand different evidence, and evidence from a lower rung cannot license claims from a higher one — no matter how much of it you collect.
+Causal inference sorts questions into Pearl's hierarchy. Associational questions ask what correlates with what. Interventional questions ask what happens under a controlled manipulation. Counterfactual questions ask what would have happened, for this very input, under an unobserved change. Different rungs demand different evidence, and evidence from a lower rung cannot license claims from a higher one, no matter how much of it you collect.
 
-Interpretability methods sit on this ladder whether they acknowledge it or not: probing is associational; ablation, patching, and steering are interventional; "the feature *means* X" and "*the* circuit computing Y" are counterfactual-strength claims about uniqueness and semantics.
+Interpretability methods sit on this ladder whether or not they acknowledge it. Probing is associational. Ablation, patching, and steering are interventional. Claims that a feature *means* something, or that a circuit is *the* circuit computing a behaviour, are counterfactual claims about uniqueness and semantics.
 
-The second question is the one the field skips: even at the right rung, **how many answers are consistent with your evidence?** Try both questions below.
+There is a second question the field tends to skip. Even at the right rung, how many answers are consistent with your evidence? Three experiments follow. Place each on the ladder before reading the answer.
 
 <CausalLadderDemo client:visible />
 
-The cloud is the point: evidence doesn't hand you *the* answer, it rules answers out. Climbing rungs shrinks the set. What remains at the top is still an **equivalence class** — and whether it collapses to a single answer *up to harmless symmetries* is exactly the question of **identifiability**.
+The purpose of evidence is elimination. Climbing rungs shrinks the set of hypotheses consistent with what you measured, and what remains at the top is still an equivalence class. Whether that class collapses to a single answer, up to harmless symmetries, is the question of identifiability.
 
 ## One claim, two gaps
 
 <div id="animations" />
 
-Take the claim from the opening story — *"the model encodes refusal in this layer."* It fails in two independent ways, and they compound.
+Consider the claim from the opening story, that the model encodes refusal in this layer. It fails in two independent ways, and the failures compound.
 
 <video controls loop muted playsInline className="rounded-lg border border-zinc-200 dark:border-zinc-800 w-full my-4" src="/causality/animation-2.mp4" />
 
-**Gap 1 — the rung gap.** The claim, as used downstream (steer it! edit it!), requires interventional evidence: *the model uses this direction in its computation.* The method provides associational evidence: *a probe fires on refusal prompts.* Decodability does not imply model use — the probe may exploit token length, position artefacts, or any confounder that co-varies with refusal.
+**Gap 1, the rung gap.** Used downstream, for steering or editing, the claim requires interventional evidence that the model uses this direction in its computation. The method provides associational evidence that a probe fires on refusal prompts. Decodability does not imply model use. The probe may be reading token length, position artefacts, or any confounder that co-varies with refusal.
 
-**Gap 2 — the identification gap.** The claim says **the** direction, as if the data singled one out. But multiple probes and SAE features decode refusal equally well. The evidence defines an equivalence class of solutions; the method returned *one member* of it, chosen by initialisation and optimiser quirks.
+**Gap 2, the identification gap.** The claim says *the* direction, as if the data singled one out. Many probes and SAE features decode refusal equally well. The evidence defines an equivalence class of solutions, and the method returned one member of it, selected by initialisation and optimiser quirks.
 
 The ladder animation, for completeness:
 
@@ -50,54 +60,97 @@ The ladder animation, for completeness:
 
 ## We audited 186 claims
 
-We annotated 50 interpretability papers — 186 claims about model internals — assigning each a *method rung* (what the experiment establishes) and a *claim rung* (what the surrounding language asserts).
+We annotated 50 interpretability papers, 186 claims about model internals in total, assigning each a method rung (what the experiment establishes) and a claim rung (what the surrounding language asserts). Roughly half the claims admit a stronger causal reading than the reported evidence licenses. The figure is 47% to 54%, depending on how strictly linguistic convention is coded.
 
-<div className="not-prose flex items-baseline gap-6 my-6">
-  <div><span className="text-4xl font-bold text-accent-600 dark:text-accent-400">50</span> <span className="text-sm text-zinc-500">papers</span></div>
-  <div><span className="text-4xl font-bold text-accent-600 dark:text-accent-400">186</span> <span className="text-sm text-zinc-500">claims</span></div>
-  <div><span className="text-4xl font-bold text-accent-600 dark:text-accent-400">≈½</span> <span className="text-sm text-zinc-500">admit stronger readings than the evidence licenses</span></div>
-</div>
+<ClaimsStudyChart client:visible />
 
-The patterns are systematic, not sloppy: patching results (L2) narrated with counterfactual verbs ("encodes", "THE circuit"); probing findings (L1) with interventional ones; single-distribution results generalised past their scope. This reflects missing terminological infrastructure, not unreliable science — which is exactly why a shared causal vocabulary helps.
+The patterns are systematic. Patching results carry counterfactual verbs such as "encodes" and "THE circuit". Probing findings carry interventional ones. Single-distribution results are generalised past their scope. The gap rate is the same in abstracts and body text, which points to missing terminology rather than space pressure, and none of it means the underlying findings are wrong. It does mean the field lacks a shared vocabulary that tracks evidential strength, and that vocabulary is cheap to adopt.
+
+The claims below are drawn from the annotated dataset, verbatim. You see the sentence and the method, and you assign the gap.
+
+<GuessTheGap client:visible />
 
 ## Why low loss can't identify anything
 
-Here is the part that is a theorem rather than a taxonomy. A method learns a representation $\mathbf{h} = \phi(\mathbf{a})$ from activations $\mathbf{a}$, and the claim is that $\mathbf{h}$ recovers concepts $\mathbf{c}$. But for any invertible map $v$, the pair $(\phi' , \psi') = (v \circ \phi, \psi \circ v^{-1})$ achieves exactly the same reconstruction loss — the objective cannot distinguish a solution from its remixes. Without additional structure, unsupervised recovery of latents is impossible (Hyvärinen & Pajunen, 1999; Locatello et al., 2019). Reconstruction plus sparsity is a useful inductive bias, not an identification guarantee.
+This part is a theorem. A method learns a representation $\mathbf{h} = \phi(\mathbf{a})$ from activations $\mathbf{a}$, and the claim is that $\mathbf{h}$ recovers concepts $\mathbf{c}$. For any invertible map $v$, the pair $(\phi' , \psi') = (v \circ \phi, \psi \circ v^{-1})$ achieves exactly the same reconstruction loss, so the objective cannot distinguish a solution from its remixes. Without additional structure, unsupervised recovery of latents is impossible (Hyvärinen & Pajunen, 1999; Locatello et al., 2019). Adding a sparsity penalty expresses a preference among solutions. It does not guarantee the preferred solution is the right one.
 
-**Causal representation learning** (CRL) supplies the missing structure: interventions, paired contexts, sparsity of *changes*. Under such conditions the recovered representation is unique up to permutation and scaling,
+The demo below makes the theorem concrete. Two concepts co-occur, as real concepts do. Rotate the learned basis onto the true concept axes using the information an unsupervised objective actually has, then lock in a guess.
+
+<RotationDial client:visible />
+
+Switching the data regime to independent shows the other side. There the ℓ₁ penalty does find the true axes, because the sparsity assumption holds in the data. Real concepts correlate, and that is where an inductive bias stops being enough.
+
+**Causal representation learning** supplies the missing structure through interventions, paired contexts, and sparsity of changes. With the paired interventions switched on above, the objective acquires minima exactly at the true axes in both regimes, and what survives is
 
 $$
 \hat{\mathbf{c}} = \mathbf{P}\boldsymbol{\Lambda}\mathbf{c},
 $$
 
-where $\mathbf{P}$ is a permutation and $\boldsymbol{\Lambda}$ a diagonal scaling — the latent is pinned down *as a set of axes*, with only harmless relabelling left over. Sparse shift autoencoders (SSAEs) realise this recipe on LLM activations: paired samples over uniformly sampled contexts identify the varied latents (Joshi et al., 2025).
+where $\mathbf{P}$ is a permutation and $\boldsymbol{\Lambda}$ a diagonal scaling. The notches at 0° and 90° in the demo are this equivalence class. The leftover ambiguity is harmless relabelling. Sparse shift autoencoders realise the recipe on LLM activations, where paired samples over uniformly sampled contexts identify the varied latents (Joshi et al., 2025).
 
-**Identifiability is interaction-relative.** Two iron filings — one magnetised, one not — are indistinguishable under looking, weighing, lifting. Bring a magnet and the difference is suddenly visible. What a method can identify is bounded by the interactions it affords; probing, patching, and steering are different magnets, and a representation may show structure only under the right one.
+Identifiability is also interaction-relative. Two iron filings, one magnetised and one not, are indistinguishable under looking, weighing, and lifting. A magnet makes the difference visible. What a method can identify is bounded by the interactions it affords, and a representation may show structure only under the right one.
+
+## Eight ways claims outrun evidence
+
+The two gaps from the opening are instances of a pattern. The paper catalogues the recurring estimand–evidence gaps of mechanistic interpretability, each an implied claim sitting above its actual scope.
+
+<GapTaxonomy client:visible />
 
 ## The research programme
 
-The failure modes above are addressable, and each direction pairs a CRL tool with an interpretability testbed: **counterfactual safety** (when does activation patching coincide with a true counterfactual — and what minimal annotation restores the correspondence where it doesn't?); **task-relative identification** (steering may need only blockwise identifiability, editing needs elementwise — demand no more than the task requires); **compositional control** (task vectors compose, model edits don't — when do interventions compose, and does stronger identification predict it?); and **transportability** (edit failures under shift are transportability violations — predict which prompts an edit survives *before* deploying it).
+The failure modes above are addressable. Each direction below pairs a tool from causal representation learning with an interpretability testbed.
+
+<div className="not-prose grid gap-2 sm:grid-cols-2 my-6">
+  <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-3.5">
+    <div className="text-[13px] font-semibold text-zinc-900 dark:text-zinc-100">Counterfactual semantics for safety</div>
+    <div className="text-[12px] text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed">When does activation patching coincide with a true counterfactual, and where it doesn't, what minimal exogenous annotation restores the correspondence?</div>
+    <div className="text-[11px] mt-2"><span className="font-semibold" style={{color:'#B0356B'}}>CRL offers</span> structural models and abstraction conditions · <span className="font-semibold" style={{color:'#C07A18'}}>interp offers</span> real architectures that stress-test them</div>
+  </div>
+  <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-3.5">
+    <div className="text-[13px] font-semibold text-zinc-900 dark:text-zinc-100">Task-relative identification</div>
+    <div className="text-[12px] text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed">Steering may need only blockwise identifiability, while editing needs elementwise. Demand the identification strength the task requires.</div>
+    <div className="text-[11px] mt-2"><span className="font-semibold" style={{color:'#B0356B'}}>CRL offers</span> a vocabulary of equivalence classes · <span className="font-semibold" style={{color:'#C07A18'}}>interp offers</span> evidence of which classes suffice in practice</div>
+  </div>
+  <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-3.5">
+    <div className="text-[13px] font-semibold text-zinc-900 dark:text-zinc-100">Compositional control</div>
+    <div className="text-[12px] text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed">Task vectors compose while model edits do not. When do representation-level interventions compose, and does stronger identification predict it?</div>
+    <div className="text-[11px] mt-2"><span className="font-semibold" style={{color:'#B0356B'}}>CRL offers</span> algebraic structure for intervention families · <span className="font-semibold" style={{color:'#C07A18'}}>interp offers</span> the compositional failures that falsify it</div>
+  </div>
+  <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-3.5">
+    <div className="text-[13px] font-semibold text-zinc-900 dark:text-zinc-100">Transportability as edit generalisation</div>
+    <div className="text-[12px] text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed">Edit failures under distribution shift are transportability violations. Can transportability criteria predict which prompts an edit survives before deployment?</div>
+    <div className="text-[11px] mt-2"><span className="font-semibold" style={{color:'#B0356B'}}>CRL offers</span> transfer conditions across distributions · <span className="font-semibold" style={{color:'#C07A18'}}>interp offers</span> systematic edit failures as natural experiments</div>
+  </div>
+</div>
 
 ## Diagnose your claim
 
 <div id="checklist" />
 
-The paper ships a practitioners' checklist (§G.6). Here is the 60-second version — four answers, instant verdict:
+The paper includes a practitioners' checklist (§G.6). The short version takes a minute.
 
 <ClaimDiagnosis client:visible />
+
+Much of the problem is vocabulary. The linter below flags rung-elevated verbs in a sentence, suggests a rewrite at the rung the method supports, and produces a scope statement, which is the checklist's final item.
+
+<ClaimLinter client:visible />
 
 <details className="my-4">
   <summary className="cursor-pointer text-sm font-semibold">The full seven-item checklist from the paper</summary>
   <ol className="text-sm mt-2">
-    <li><strong>Estimand.</strong> "I am measuring ___" — e.g., probe accuracy for *is-plural* on layer-8 residual stream.</li>
-    <li><strong>Method rung.</strong> Probing → associational; patching → interventional; interchange interventions → counterfactual.</li>
-    <li><strong>Claim rung.</strong> "encodes" → associational; "causes" → interventional; "would have changed" → counterfactual.</li>
-    <li><strong>Rung check.</strong> Method rung ≥ claim rung? If not: strengthen the method or weaken the claim.</li>
-    <li><strong>Alternatives not ruled out.</strong> What else produces this evidence? (Token length, other circuits…)</li>
-    <li><strong>Robustness.</strong> Varied prompts, seeds, ablation strategies (zero / mean / resample)?</li>
-    <li><strong>Scope.</strong> "This applies to ___ (and not beyond)."</li>
+    <li><strong>Estimand.</strong> "I am measuring ___", e.g. probe accuracy for *is-plural* on the layer-8 residual stream.</li>
+    <li><strong>Method rung.</strong> Probing is associational, patching is interventional, interchange interventions under a structural model are counterfactual.</li>
+    <li><strong>Claim rung.</strong> "Encodes" reads as associational, "causes" as interventional, "would have changed" as counterfactual.</li>
+    <li><strong>Rung check.</strong> Is the method rung at or above the claim rung? If not, strengthen the method or weaken the claim.</li>
+    <li><strong>Alternatives not ruled out.</strong> What else produces this evidence? Token length, other circuits.</li>
+    <li><strong>Robustness.</strong> Varied prompts, seeds, and ablation strategies (zero, mean, resample)?</li>
+    <li><strong>Scope.</strong> "This applies to ___, and not beyond."</li>
   </ol>
 </details>
+
+None of this raises publication barriers. A paper that states its rung, names its equivalence class, and bounds its scope contributes more than one whose language implies stronger evidence than it reports, even when its claims are narrower.
+
+<ArcProgress variant="finale" client:load />
 
 ## Cite
 

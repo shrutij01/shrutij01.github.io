@@ -23,7 +23,8 @@ export const publications: Publication[] = [
     tags: ['interpretability', 'sparse-autoencoders', 'generalisation', 'evaluation'],
     highlight: false,
     links: [
-      { label: 'PDF', href: '/Sparse_OOD-3.pdf' },
+      { label: 'PDF', href: '/Sparse_OOD-6.pdf' },
+      { label: 'Blog', href: '/blog/stop-probing-start-coding' },
     ],
     bibtex: `@misc{pacela2026stopprobing,
   title={Stop Probing, Start Coding: Why Linear Probes and Sparse Autoencoders Fail at Compositional Generalization},

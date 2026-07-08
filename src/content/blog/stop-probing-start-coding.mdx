@@ -1,0 +1,79 @@
+---
+title: "Decoding Concepts Under Superposition"
+slug: "stop-probing-start-coding"
+date: "2026-07-07"
+description: "Concepts can be linearly encoded in activations and still be impossible to decode with a linear map. An interactive tour of our UAI 2026 paper on why probes and sparse autoencoders fail on novel combinations of concepts, and what compressed sensing says to do about it."
+tags: ["interpretability", "sparse-autoencoders", "superposition", "compressed sensing", "UAI 2026"]
+---
+
+import TheFold from '../../components/TheFold.tsx';
+import CompositionalCollapse from '../../components/CompositionalCollapse.tsx';
+import InferenceRace from '../../components/InferenceRace.tsx';
+
+<div className="not-prose rounded-xl border border-accent-200 dark:border-accent-900 bg-accent-50/60 dark:bg-accent-950/30 px-5 py-4 my-6">
+  <div className="text-[11px] font-semibold tracking-widest uppercase text-accent-700 dark:text-accent-400 mb-1">UAI 2026</div>
+  <div className="text-[15px] font-semibold text-zinc-900 dark:text-zinc-100">Stop Probing, Start Coding: Why Linear Probes and Sparse Autoencoders Fail at Compositional Generalisation</div>
+  <div className="text-[13px] text-zinc-500 dark:text-zinc-400 mt-1">Vitória Barin-Pacela* · Shruti Joshi* · Isabela Camacho · Simon Lacoste-Julien · David Klindt</div>
+  <div className="text-[13px] mt-2"><a href="/Sparse_OOD-6.pdf" className="text-accent-600 dark:text-accent-400 underline decoration-accent-300">PDF</a> · <a href="/blog/causality-interpretability" className="text-accent-600 dark:text-accent-400 underline decoration-accent-300">companion post on the causality position paper</a></div>
+</div>
+
+A linear probe reaches 99% accuracy on your validation set. The concept it reads out is linearly encoded in the activations, by construction. When the model encounters a combination of concepts the probe never saw in training, the readout collapses to near chance.
+
+Nothing malfunctioned. The failure is geometric, and it follows from taking the linear representation hypothesis more seriously than the field usually does.
+
+## The fold
+
+The linear representation hypothesis says activations are linear mixtures of concepts, $\mathbf{y} = \mathbf{W}\mathbf{z}$. Under superposition the model encodes more concepts than it has dimensions ($d_z > d_y$), so $\mathbf{W}$ projects a high-dimensional concept space into a lower-dimensional activation space. A distinction that is easy to ignore becomes important here. Concepts being linearly encoded is not the same as concepts being recoverable by a linear map. The projection folds latent space, and a decision boundary that is linear in $\mathbf{z}$ need not remain linear in $\mathbf{y}$.
+
+The demo below uses a label that is linear in latent space, $t = \mathbb{1}\{z_1 > 0.5\}$, and finds the best linear probe by exhaustive search.
+
+<TheFold client:visible />
+
+The sizes matter. Compressed sensing gives the exact accounting. Recovering a $k$-sparse code nonlinearly needs $d_y = O(k \log(d_z/k))$ dimensions, while guaranteeing linear recovery costs $\Omega\big(\tfrac{k^2}{\log k}\log(\tfrac{d_z}{k})\big)$, quadratic in $k$. For a million latent concepts with 100 active at once, nonlinear recovery needs about 920 dimensions and linear recovery needs about 20,000. A transformer hidden size of 4,096 sits in the regime where the concepts are present but no linear map is guaranteed to reach them. Whether concepts are recoverable depends on how you try to decode them.
+
+## Novel combinations expose it
+
+In distribution, none of this is visible. A probe can exploit whatever co-occurrence structure the training distribution offers, and its accuracy will look excellent. The failure appears when concepts recombine. Train on prompts where $z_1$ co-occurs with $z_2$ and where $z_2$ co-occurs with $z_3$, and hold out the combination $(z_1, z_3)$. The label depends only on $z_1$, so the split should be harmless.
+
+<CompositionalCollapse client:visible />
+
+This is the withheld-co-occurrence logic of spurious-correlation benchmarks such as Waterbirds, applied in concept space. The probe was never reading $z_1$. It was reading a projection that aligned with $z_1$ under the training mixture, and superposition is what turns that shortcut from mild into fatal.
+
+## The amortisation gap
+
+Classical sparse coding handles the fold by construction. If codes are sparse and the dictionary satisfies the restricted isometry property, the sparse code is identifiable, and per-sample solvers such as basis pursuit and FISTA provably recover it. The dimension requirement is logarithmic in dictionary size, which makes the theory permissive about scale. With $d_y = 4{,}096$ and a few dozen concepts active at once, dictionaries of millions of atoms are feasible. The 16 million features reported for GPT-4 and the 34 million for Claude 3 Sonnet are within range.
+
+Sparse autoencoders keep the sparse coding model but amortise the inference. A fixed encoder maps activations to codes in one forward pass. That encoder is fit on a finite training distribution, so it learns the distribution's co-occurrence structure rather than the underlying inference problem. The result is a systematic amortisation gap, easiest to see with the dictionary held fixed and perfect.
+
+<InferenceRace client:visible />
+
+In the paper's controlled sweeps, this picture holds at every scale we tested. Per-sample FISTA with the true dictionary shows the sharp phase transition that compressed sensing predicts and is near-perfect past it, with MCC at or above 0.95 and out-of-distribution accuracy near 0.97. SAE variants (ReLU, TopK, JumpReLU, MP) plateau between 0.2 and 0.5 MCC regardless of the undersampling ratio. More data does not close the gap. It is stable across two orders of magnitude of training samples, and JumpReLU degrades with more data. SAE codes offered no downstream advantage over probing raw activations, consistent with recent independent evaluations.
+
+## The bottleneck is the dictionary
+
+The experiments above point at amortisation, and they suggest an obvious fix: replace the encoder with an optimiser. That was our hypothesis. The controlled swaps show it is wrong. Take a trained SAE, freeze its decoder as a dictionary, and run full per-sample FISTA on it. Recovery barely moves, around 0.15 to 0.4 MCC, far below classical dictionary learning with per-sample inference at 0.75 to 0.95 on identical data. The SAE-learned dictionary itself points in substantially wrong directions. Decoder columns reach cosine similarity of roughly 0.2 to 0.35 with ground truth at $d_z = 5{,}000$, and support precision is 0.009 for ReLU SAEs and 0.03 for TopK. Per-sample inference cannot rescue wrong column directions.
+
+So the reframe: the SAE failure is a dictionary learning problem. Amortised inference is the visible symptom. The caveat runs in both directions, because at $d_z = 5{,}000$ classical alternating minimisation begins to fail as well, with cosine similarity around 0.25. No current method learns good dictionaries at that scale. The oracle results show the problem is solvable. No existing algorithm solves it at the sizes that matter.
+
+Two findings soften the picture. The SAE decoder is a poor dictionary but a useful initialisation, saving about 50 dictionary-update rounds at small scale. And on real LLM activations the classical recipe is already competitive. On the SAE Bench sparse-probing task, dictionary learning with per-sample FISTA edges out both SAEs and linear probes on pythia-70m, and beats TopK SAEs on all eight Gemma-2-2B datasets, with an overall gain of 1.17 accuracy points.
+
+## What this changes
+
+For practitioners. Treat in-distribution probe accuracy as an upper bound that compositional shift will revise downward, since the fold is invisible until concepts recombine. When the dictionary can be trusted, prefer per-sample sparse inference over a one-pass encoder; the cost is an optimisation loop per input rather than a training run. Direct scaling effort at dictionary learning, which is where the bottleneck sits.
+
+For the field, the message is more constructive than the title suggests. Compressed sensing says unique recovery under superposition is theoretically cheap at LLM scale, with millions of concepts, a few dozen active at once, and hidden sizes we already have. What is missing is a dictionary learning algorithm that holds up as $d_z$ grows past a few thousand. That is a concrete, well-posed open problem, and solving it buys the thing interpretability keeps promising: concept recovery that survives novel compositions.
+
+This post is the geometric half of an argument whose inferential half is our [ICML 2026 position paper](/blog/causality-interpretability). There we argue that decodability never licensed causal claims. Here, superposition shows that decodability itself degrades in quantifiable ways once compositions shift. Both papers point toward identifiability assumptions that are stated and tested, in place of accuracy numbers extrapolated past their distribution.
+
+## Cite
+
+```bibtex
+@inproceedings{barinpacela2026stopprobing,
+  title     = {Stop Probing, Start Coding: Why Linear Probes and Sparse
+               Autoencoders Fail at Compositional Generalisation},
+  author    = {Barin-Pacela, Vit{\'o}ria and Joshi, Shruti and Camacho, Isabela
+               and Lacoste-Julien, Simon and Klindt, David},
+  booktitle = {Conference on Uncertainty in Artificial Intelligence},
+  year      = {2026}
+}
+```
