@@ -191,9 +191,21 @@ export default function InferenceRace() {
 
           {sample && encH && istaH && (
             <div className="rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 px-3 py-3 space-y-2">
-              <Bars h={sample.z} color={TRUE_C} label="true code z (dots mark true atoms)" S={sample.S} />
-              <Bars h={encH} color={ENC_C} label={`encoder — 1 pass · precision ${encP!.toFixed(2)}`} S={sample.S} />
-              <Bars h={istaH} color={ISTA_C} label={`ISTA — iter ${istaIter} · precision ${istaP!.toFixed(2)}`} S={sample.S} />
+              <div className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                Each row shows the inferred coefficient on each of the 16 dictionary atoms. The dots under the axis mark
+                the two atoms that are truly active in this sample.
+              </div>
+              <Bars h={sample.z} color={TRUE_C} label="true code z" S={sample.S} />
+              <Bars h={encH} color={ENC_C} label={`encoder, one pass · precision ${encP!.toFixed(2)}`} S={sample.S} />
+              <Bars h={istaH} color={ISTA_C} label={`ISTA, iteration ${istaIter} · precision ${istaP!.toFixed(2)}`} S={sample.S} />
+              <div className="flex items-center gap-2">
+                <div className="w-40 shrink-0 text-right text-[10px] text-zinc-400">dictionary atom →</div>
+                <div className="flex flex-1">
+                  {Array.from({ length: DH }, (_, j) => (
+                    <div key={j} className="flex-1 text-center text-[9px] text-zinc-400">{j + 1}</div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 
