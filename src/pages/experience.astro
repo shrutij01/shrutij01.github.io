@@ -6,35 +6,33 @@ const experience = [
     period: '2023 – present',
     role: 'PhD Student',
     orgs: [
-      { name: 'Université de Montréal', url: 'https://www.umontreal.ca' },
       { name: 'Mila', url: 'https://mila.quebec' },
+      { name: 'Université de Montréal', url: 'https://www.umontreal.ca' },
     ],
-    description: 'My research connects identifiability theory with mechanistic interpretability. I develop methods that interpret unsupervised representations by operationalising identifiability guarantees, and I build evaluation protocols that remain meaningful under structural misspecification. Much of this work targets large language models (LLMs), where I aim to formalise and stress-test causal claims about circuits and representations.',
+    description:
+      'Formalising identifiability in settings that provide no ground-truth factors to compare against, and testing the framework on the interpretability of language models. The work covers the equivalence class an agent\'s affordances induce, whether identifiable solutions are reachable under finite data and a given optimiser, and what current evaluation metrics can and cannot certify.',
     mentor: { name: 'Dhanya Sridhar', url: 'https://dsridhar.com' },
     tags: ['identifiability', 'causality', 'interpretability', 'LLMs'],
-    type: 'education' as const,
   },
-   {
+  {
     period: 'Fall 2022',
     role: 'Research Intern',
-    orgs: [
-      { name: 'ServiceNow Research', url: 'https://www.servicenow.com/research/' },
-    ],
-    description: 'Adapted language models for text-based reinforcement learning environments (Jericho), where the agent must parse natural language observations, maintain belief state, and act in a combinatorially large action space. This was sequential decision-making under language before large-scale pretraining made the language part easy—model capacity was scarce and architectural choices were consequential. The experience posed the same question: what separates a model that tracks a useful latent state from one that merely correlates with low-level observable features?',
+    orgs: [{ name: 'ServiceNow Research', url: 'https://www.servicenow.com/research/' }],
+    description:
+      'Adapted language models for text-based reinforcement learning environments (Jericho), where the agent parses natural language observations, maintains a belief state, and acts in a combinatorially large action space. Model capacity was scarce and architectural choices were consequential. The question it left me with is the one I still work on: what separates a model that tracks a useful latent state from one that correlates with low-level observable features?',
     tags: ['reinforcement learning', 'language grounding'],
-    type: 'work' as const,
   },
   {
     period: '2021 – 2023',
-    role: "Master's Student",
+    role: 'Master\'s Student',
     orgs: [
-      { name: 'Université de Montréal', url: 'https://www.umontreal.ca' },
       { name: 'Mila', url: 'https://mila.quebec' },
+      { name: 'Université de Montréal', url: 'https://www.umontreal.ca' },
     ],
-    description: 'Studied how agency shapes what is learnable: how model-based RL agents can acquire (and whethe they already do) causal world models through interaction with the environment. Built controlled physics simulations to evaluate planning and long-term memory under distribution shifts and novel interventions in partially observable, stochastic environments. This work highlighted the question of enabling interaction-guided or affordance-based representation learning, i.e., what a system can do and observe as a result of it, such that learned variables reflect this underlying structure of control?',
+    description:
+      'Studied how acting shapes what is learnable: whether model-based agents acquire causal structure about physical mechanisms through interaction with their environment. Built controlled physics simulations to evaluate planning and long-term memory under distribution shift and novel interventions, in partially observable and stochastic environments. This is where affordance-based representation learning became the question — what a system can do and observe as a result, and whether the variables it learns reflect that structure of control.',
     mentor: { name: 'Devon Hjelm', url: 'https://scholar.google.com/citations?user=68c5HfwAAAAJ&hl=en' },
-    tags: ['world models', 'reinforcement learning', 'causal reasoning'],
-    type: 'education' as const,
+    tags: ['agency', 'reinforcement learning', 'causal structure'],
   },
   {
     period: '2019 – 2021',
@@ -42,148 +40,92 @@ const experience = [
     orgs: [
       { name: 'Empirical Inference, Max Planck Institute for Intelligent Systems', url: 'https://is.mpg.de/ei' },
     ],
-    description: 'Developed real-time control and logging software for robotic manipulators and was the primary developer of the accompanying simulation package. Research on self-supervised representation learning, specifically systematic generalisation. This raised the question I have worked on since: how to learn and evaluate whether a representation has genuinely captured any relevant structure from data (and what relevant is).',
+    description:
+      'Developed real-time control and logging software for robotic manipulators, and was the primary developer of the accompanying simulation package. Research on self-supervised representation learning, with a focus on systematic generalisation. This raised the question I have worked on since: how to learn a representation that captures relevant structure in data, how to tell whether it has, and what relevant means.',
     mentors: [
-    { name: 'Bernhard Schölkopf', url: 'https://is.mpg.de/ei/person/bs'},
-    { name: 'Stefan Bauer', url: 'https://www.professoren.tum.de/en/bauer-stefan'},
+      { name: 'Bernhard Schölkopf', url: 'https://is.mpg.de/ei/person/bs' },
+      { name: 'Stefan Bauer', url: 'https://www.professoren.tum.de/en/bauer-stefan' },
     ],
     tags: ['robotics', 'self-supervised learning', 'open-source software', 'systematic generalisation'],
-    type: 'work' as const,
   },
   {
     period: '2015 – 2019',
-    role: "Bachelor's in Electrical Engineering",
-    orgs: [
-      { name: 'Indian Institute of Technology Kanpur', url: 'https://www.iitk.ac.in' },
-    ],
-    description: 'Research exploration across convex optimization, stochastic processes, robotic manipulation, and formal methods. Projects included building physics simulations (BulletPhysics, C++) for deformable object manipulation; formulating dynamic programs for supply-chain decisions; studying online convex optimization; working with stochastic geometry and spatial point processes; and using Z3 to formalize reasoning in multi-agent social deduction.',
+    role: 'Bachelor\'s in Electrical Engineering',
+    orgs: [{ name: 'Indian Institute of Technology Kanpur', url: 'https://www.iitk.ac.in' }],
+    description:
+      'Research across convex optimisation, stochastic processes, robotic manipulation, and formal methods. Projects included physics simulations in C++ for deformable object manipulation, dynamic programs for supply-chain decisions, online convex optimisation, stochastic geometry and spatial point processes, and using Z3 to formalise reasoning in multi-agent social deduction.',
     mentors: [
-      { name: 'Dmitry Berenson', url: 'https://web.eecs.umich.edu/~dmitryb/', note: 'deformable object manipualtion, University of Michigan' },
+      { name: 'Dmitry Berenson', url: 'https://web.eecs.umich.edu/~dmitryb/', note: 'deformable object manipulation, University of Michigan' },
       { name: 'Amar Sapra', url: 'https://www.iimb.ac.in/user/142/amar-sapra', note: 'supply chain, IIM Bangalore' },
       { name: 'Indranil Saha', url: 'https://www.cse.iitk.ac.in/users/isaha/', note: 'Z3 multi-agent reasoning, IIT Kanpur' },
     ],
     tags: ['optimisation', 'physics simulation', 'stochastic processes', 'formal methods'],
-    type: 'education' as const,
   },
 ];
 
-const typeStyles = {
-  education: {
-    dot: 'bg-accent-500',
-    badge: 'bg-accent-50 text-accent-700 border-accent-200 dark:bg-accent-950 dark:text-accent-300 dark:border-accent-800',
-  },
-  work: {
-    dot: 'bg-emerald-500',
-    badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800',
-  },
-  industry: {
-    dot: 'bg-emerald-500',
-    badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800',
-  },
-};
+const tools = ['Python', 'PyTorch', 'JAX', 'C++', 'TypeScript', 'Rust', 'Git', 'Docker', 'LaTeX', 'Weights & Biases', 'HPC / SLURM'];
 ---
 
-<BaseLayout title="Experience — Shruti Joshi">
-  <h1 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight mb-2">
+<BaseLayout
+  title="Experience — Shruti Joshi"
+  description="Research timeline for Shruti Joshi."
+  compact
+>
+  <h1 class="font-serif text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
     Experience
   </h1>
-  <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-10">
-    Research and education timeline.
-  </p>
 
-  <!-- Timeline -->
-  <div class="relative">
-    <!-- Vertical line -->
-    <div class="absolute left-[7px] top-2 bottom-2 w-px bg-zinc-200 dark:bg-zinc-800"></div>
+  <section aria-labelledby="timeline-heading" class="rule mt-8 pt-5">
+    <h2 id="timeline-heading" class="section-heading">Research timeline</h2>
 
-    <div class="space-y-10">
-      {experience.map((item) => {
-        const styles = typeStyles[item.type];
-        return (
-          <div class="relative pl-8">
-            {/* Dot */}
-            <div class={`absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full border-[3px] border-white dark:border-zinc-950 ${styles.dot}`}></div>
+    <ul class="mt-4 space-y-7">
+      {experience.map((item) => (
+        <li>
+          <p class="meta">{item.period}</p>
 
-            {/* Content */}
-            <div>
-              <div class="flex flex-wrap items-center gap-2 mb-1">
-                <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500">
-                  {item.period}
-                </span>
-                <span class={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${styles.badge}`}>
-                  {item.type}
-                </span>
-              </div>
+          <h3 class="mt-1 text-[0.95rem] font-medium text-zinc-900 dark:text-zinc-100">
+            {item.role}
+          </h3>
 
-              <h3 class="text-base font-medium text-zinc-900 dark:text-zinc-100">
-                {item.role}
-              </h3>
-              <p class="text-sm text-zinc-500 dark:text-zinc-400">
-                {item.orgs.map((org, idx) => (
-                  <Fragment>
-                    {idx > 0 && <span class="text-zinc-300 dark:text-zinc-600"> · </span>}
-                    <a href={org.url} target="_blank" rel="noopener" class="link-underline">{org.name}</a>
-                  </Fragment>
-                ))}
-              </p>
+          <p class="text-[0.9rem] text-zinc-500 dark:text-zinc-500">
+            {item.orgs.map((org, index) => (
+              <>
+                {index > 0 && <span> · </span>}
+                <a href={org.url} target="_blank" rel="noopener">{org.name}</a>
+              </>
+            ))}
+          </p>
 
-              <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-xl">
-                {item.description}
-              </p>
+          <p class="mt-2 text-[0.9rem]">{item.description}</p>
 
-              {/* Single mentor — small, dotted underline, clickable */}
-              {item.mentor && (
-                <p class="mt-1.5 text-xs text-zinc-400 dark:text-zinc-500">
-                  {item.mentor.note ? (
-                    <Fragment>
-                      with <a href={item.mentor.url} target="_blank" rel="noopener" class="hover:text-zinc-600 dark:hover:text-zinc-300 underline decoration-dotted underline-offset-2 transition-colors">{item.mentor.name}</a>
-                      <span class="text-zinc-300 dark:text-zinc-600"> · </span>
-                      <span>{item.mentor.note}</span>
-                    </Fragment>
-                  ) : (
-                    <Fragment>
-                      advised by <a href={item.mentor.url} target="_blank" rel="noopener" class="hover:text-zinc-600 dark:hover:text-zinc-300 underline decoration-dotted underline-offset-2 transition-colors">{item.mentor.name}</a>
-                    </Fragment>
-                  )}
-                </p>
-              )}
+          {item.mentor && (
+            <p class="mt-1.5 text-[0.85rem] text-zinc-500 dark:text-zinc-500">
+              advised by <a href={item.mentor.url} target="_blank" rel="noopener">{item.mentor.name}</a>
+            </p>
+          )}
 
-              {/* Multiple mentors — subtle dotted links with notes */}
-              {item.mentors && (
-                <p class="mt-1.5 text-xs text-zinc-400 dark:text-zinc-500">
-                  {item.mentors.map((m, idx) => (
-                    <Fragment>
-                      {idx > 0 && <span class="text-zinc-300 dark:text-zinc-600"> · </span>}
-                      <a href={m.url} target="_blank" rel="noopener" class="hover:text-zinc-600 dark:hover:text-zinc-300 underline decoration-dotted underline-offset-2 transition-colors">{m.name}</a>
-                      {m.note && <span class="text-zinc-300 dark:text-zinc-600"> ({m.note})</span>}
-                    </Fragment>
-                  ))}
-                </p>
-              )}
+          {item.mentors && (
+            <p class="mt-1.5 text-[0.85rem] text-zinc-500 dark:text-zinc-500">
+              with {item.mentors.map((mentor, index) => (
+                <>
+                  {index > 0 && <span> · </span>}
+                  <a href={mentor.url} target="_blank" rel="noopener">{mentor.name}</a>
+                  {mentor.note && <span> ({mentor.note})</span>}
+                </>
+              ))}
+            </p>
+          )}
 
-              {item.tags.length > 0 && (
-                <div class="mt-2 flex flex-wrap gap-1.5">
-                  {item.tags.map((tag) => (
-                    <span class="tag text-[10px]">{tag}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  </div>
-
-  <!-- Skills / Tools (compact) -->
-  <section class="mt-16 pt-8 border-t border-zinc-100 dark:border-zinc-800/50">
-    <h2 class="section-heading">Tools & Languages</h2>
-    <div class="flex flex-wrap gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-      {['Python', 'PyTorch', 'JAX', 'C++', 'TypeScript', 'Rust', 'Git', 'Docker', 'LaTeX', 'Weights & Biases', 'HPC / SLURM'].map((tool) => (
-        <span class="px-3 py-1 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-xs font-medium">
-          {tool}
-        </span>
+          <p class="mt-1.5 text-[0.8rem] text-zinc-400 dark:text-zinc-600">
+            {item.tags.join(' · ')}
+          </p>
+        </li>
       ))}
-    </div>
+    </ul>
+  </section>
+
+  <section aria-labelledby="tools-heading" class="rule mt-8 pt-5">
+    <h2 id="tools-heading" class="section-heading">Tools</h2>
+    <p class="mt-2 text-[0.9rem] text-zinc-500 dark:text-zinc-500">{tools.join(' · ')}</p>
   </section>
 </BaseLayout>

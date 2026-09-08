@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const modules = import.meta.glob('../../content/blog/*.mdx', { eager: true });
+const posts = Object.values(modules)
+  .map((module: any) => module.frontmatter)
+  .filter((frontmatter: any) => frontmatter?.slug)
+  .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+// The paper each essay accompanies. Keyed by post slug.
+const companion: Record<string, { label: string; href: string }> = {
+  'causality-interpretability': {
+    label: 'Causality is Key for Interpretability Claims to Generalise (ICML 2026)',
+    href: '/publications#joshi2026causalitykeyinterpretabilityclaims',
+  },
+  'stop-probing-start-coding': {
+    label: 'Stop Probing, Start Coding (UAI 2026)',
+    href: '/publications#pacela2026stopprobing',
+  },
+};
+
+const written = (date: string) =>
+  new Date(date).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+---
+
+<BaseLayout
+  title="Writing — Shruti Joshi"
+  description="Long-form posts on Shruti Joshi's papers, with interactive figures."
+  compact
+>
+  <h1 class="font-serif text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
+    Writing
+  </h1>
+  <p class="mt-3 text-[0.95rem]">
+    Each post takes one paper and works through its central claim at more length than the paper
+    had room for. The figures are interactive.
+  </p>
+
+  {posts.length === 0 ? (
+    <p class="rule mt-8 pt-5 text-sm text-zinc-500 dark:text-zinc-500">Nothing published yet.</p>
+  ) : (
+    <ul class="rule mt-8 pt-2">
+      {posts.map((post: any) => (
+        <li class="border-b border-zinc-100 py-5 last:border-0 dark:border-zinc-900">
+          <time class="meta" datetime={post.date}>{written(post.date)}</time>
+          <h2 class="mt-1.5 font-serif text-[1.25rem] font-semibold leading-snug">
+            <a href={`/blog/${post.slug}`} class="text-zinc-950 no-underline hover:underline dark:text-zinc-50">
+              {post.title}
+            </a>
+          </h2>
+          <p class="mt-2 text-[0.9rem]">{post.description}</p>
+          {companion[post.slug] && (
+            <p class="mt-2 text-[0.85rem] text-zinc-500 dark:text-zinc-500">
+              Accompanies <a href={companion[post.slug].href}>{companion[post.slug].label}</a>.
+            </p>
+          )}
+        </li>
+      ))}
+    </ul>
+  )}
+
+  <p class="mt-6 text-sm">
+    <a href="/rss.xml">RSS</a>
+  </p>
+</BaseLayout>

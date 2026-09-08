@@ -1,23 +1,44 @@
 ---
+import { emailDisplay } from '../data/contact';
+
+// The address is written out below rather than listed here, since it is text
+// rather than a link.
 const links = [
+  { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=ypwj0KwAAAAJ&hl=en' },
+  { label: 'GitHub', href: 'https://github.com/shrutij01' },
   { label: 'Twitter', href: 'https://x.com/_shruti_joshi_' },
   { label: 'LinkedIn', href: 'https://ca.linkedin.com/in/shruti-joshi-101' },
 ];
+
+interface Props {
+  wide?: boolean;
+  compact?: boolean;
+}
+
+const { wide = false, compact = false } = Astro.props;
+const containerClass = wide ? 'wide-page-container' : 'page-container';
 ---
 
-<footer class="border-t border-zinc-100 dark:border-zinc-800/50 mt-20">
-  <div class="page-container py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-zinc-400 dark:text-zinc-500">
-    <span>&copy; {new Date().getFullYear()} Shruti Joshi</span>
-    <div class="flex gap-5">
+<footer class:list={['border-t border-ground-200 dark:border-ground-800', compact ? 'mt-16' : 'mt-20']}>
+  <div class:list={[
+    containerClass,
+    'flex flex-col gap-3 py-7 text-sm text-zinc-500 dark:text-zinc-500 sm:flex-row sm:items-center sm:justify-between',
+  ]}>
+    <span>Shruti Joshi · Tiohtià:ke / Montréal</span>
+    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+      <span>{emailDisplay}</span>
       {links.map(({ label, href }) => (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener"
-          class="hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
-        >
-          {label}
-        </a>
+        <>
+          <span aria-hidden="true" class="text-zinc-400 dark:text-zinc-600">·</span>
+          <a
+            href={href}
+            target={href.startsWith('http') ? '_blank' : undefined}
+            rel={href.startsWith('http') ? 'noopener' : undefined}
+            class="link-quiet"
+          >
+            {label}
+          </a>
+        </>
       ))}
     </div>
   </div>

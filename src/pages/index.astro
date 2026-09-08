@@ -1,52 +1,138 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { publications } from '../data/publications';
+import { emailDisplay } from '../data/contact';
+
+// TODO(shruti): the months below are my best guesses from conference calendars.
+// Correct them here and nowhere else.
+const allNews = [
+  {
+    date: '08/2026',
+    text: 'I have been invited to the <a href="https://www.birs.ca/files/publications/posters/BIRSPoster2026.pdf">BIRS workshop on identifiable representation learning</a> where I look forward to discussing and presenting my research!',
+  },
+  {
+    date: '07/2026',
+    text: 'I am co-organising the NeurIPS 2026 workshop <a href="https://neurips.cc/Conferences/2026">Interpretability as a Science</a>. We are bringing together researchers and practitioners from interpretability, causality, statistics, neuroscience, physics, math & beyond to exchange ideas across disciplines, and learn how different fields approach the challenge of understanding complex systems like LLMs. It\'s in Sydney, Australia on December 11, 2026. Drop by!',
+  },
+  {
+    date: '07/2026',
+    text: 'I am giving a tutorial on causality for interpretability at <a href="https://2026.emnlp.org/program/tutorials/">EMNLP 2026</a>.',
+  },
+  {
+    date: '05/2026',
+    text: 'Glad to receive the Golden Reviewer Award at <a href="https://icml.cc/Conferences/2026">ICML 2026</a>.',
+  },
+  {
+    date: '05/2026',
+    text: '<a href="https://arxiv.org/abs/2602.16698">Causality is Key for Interpretability Claims to Generalise</a> accepted at ICML 2026 as a position paper.',
+  },
+  {
+    date: '05/2026',
+    text: 'Two first-author papers accepted at <a href="/publications">UAI 2026</a>.',
+  },
+];
+
+// The four most recent entries stay open; the rest sit behind the "Older news" toggle.
+const NEWS_SHOWN = 4;
+const news = allNews.slice(0, NEWS_SHOWN);
+const olderNews = allNews.slice(NEWS_SHOWN);
+
+// The homepage carries first-author work only. Co-first counts as first, which the
+// leading-name test picks up, and software releases are left to /publications.
+const recent = publications
+  .filter((p) => p.authors.startsWith('Shruti Joshi') && p.group !== 'software')
+  .sort((a, b) => b.year - a.year)
+  .slice(0, 4);
 ---
 
-<BaseLayout title="Shruti Joshi">
-  <!-- Hero -->
-  <section class="pt-12 pb-16">
-    <!-- Photo — standalone, above the card -->
-    <div class="mb-8">
-      <img
-        src="/photo.jpg"
-        alt="Shruti Joshi"
-        class="w-32 h-32 rounded-2xl object-cover ring-2 ring-purple-300/40 dark:ring-purple-500/30 shadow-lg shadow-purple-200/20 dark:shadow-purple-900/20"
-      />
-    </div>
+<BaseLayout
+  title="Shruti Joshi"
+  description="Shruti Joshi works on identifiability without a ground truth, and tests the ideas on the interpretability of language models."
+  compact
+>
+  <header class="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-9">
+    <img
+      src="/photo.jpg"
+      alt="Shruti Joshi"
+      width="192"
+      height="240"
+      class="w-40 flex-none rounded-sm object-cover ring-1 ring-ground-200 dark:ring-ground-800 sm:order-2 sm:w-48"
+    />
 
-    <!-- Name + bio card -->
-    <div class="rounded-xl border border-purple-200/60 dark:border-purple-800/30 bg-gradient-to-br from-purple-50/80 via-white to-amber-50/50 dark:from-purple-950/40 dark:via-zinc-900 dark:to-amber-950/20 p-6 sm:p-8 shadow-sm">
-      <h1 class="text-2xl sm:text-3xl font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">
-        Shruti Joshi
-      </h1>
-      <p class="mt-3 text-base text-zinc-700 dark:text-zinc-300 max-w-xl leading-relaxed">
-        I am a PhD student at <a href="https://mila.quebec" class="link-underline decoration-purple-300 dark:decoration-purple-700">Mila</a> and
-        <a href="https://www.umontreal.ca" class="link-underline decoration-purple-300 dark:decoration-purple-700">Université de Montréal</a>,
-        working on operationalising
-        <strong class="text-purple-900 dark:text-purple-300">identifiable representation learning</strong>
-        and <strong class="text-purple-900 dark:text-purple-300">causal reasoning</strong> for
-        <strong class="text-purple-900 dark:text-purple-300">interpretability
-        and control</strong> of large language models (LLMs).
+    <div class="min-w-0 flex-1 sm:order-1">
+    <h1 class="font-serif text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
+      Shruti Joshi
+    </h1>
+
+    <div class="mt-4 space-y-3 text-[0.95rem]">
+      <p>
+        I am a PhD student at Mila and the Université de Montréal, advised by
+        <a href="https://dsridhar.com" target="_blank" rel="noopener">Dhanya Sridhar</a>.
       </p>
-
-      <!-- Links row -->
-      <div class="mt-5 flex flex-wrap items-center gap-3">
-        <a href="/publications" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-purple-500 text-white hover:from-purple-700 hover:to-purple-600 dark:from-purple-500 dark:to-purple-400 dark:text-zinc-950 dark:hover:from-purple-400 dark:hover:to-purple-300 shadow-sm shadow-purple-300/30 dark:shadow-purple-800/30 transition-all">
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-          </svg>
-          Publications
-        </a>
-        <a href="https://scholar.google.com/citations?user=ypwj0KwAAAAJ&hl=en" target="_blank" rel="noopener" class="btn-ghost">Google Scholar ↗</a>
-        <a href="https://github.com/shrutij01" target="_blank" rel="noopener" class="btn-ghost">GitHub ↗</a>
-      </div>
-
-      <!-- Email — separate line, quieter -->
-      <div class="mt-3 pt-3 border-t border-purple-100/60 dark:border-purple-800/20">
-        <a href="mailto:joshi.shruti@mila.quebec" class="text-sm text-zinc-400 dark:text-zinc-500 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-          lastname.firstname@mila.quebec
-        </a>
-      </div>
+      <p>
+        The burning questions that motivate my research are: How can we discover physical mechanisms from data in an unsupervised manner by developing models that collect data to validate or falsify their own hypotheses? And, how can we evaluate the quality of representations learned by these models in terms of their ability to identify invariances in data and correctly recombine them in novel settings? To answer these questions, I draw on my training in statistical machine learning, especially <a href="https://en.wikipedia.org/wiki/Identifiability">identifiability</a> and <a href="https://www.stats.ox.ac.uk/~evans/APTS/intro.html#ques">causal inference</a>. Read more in my <a href="/research">research statement</a>.
+      </p>
     </div>
+
+    <p class="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+      <span class="text-zinc-600 dark:text-zinc-400">{emailDisplay}</span>
+      <span aria-hidden="true" class="text-zinc-400 dark:text-zinc-600">·</span>
+      <a href="https://scholar.google.com/citations?user=ypwj0KwAAAAJ&hl=en" target="_blank" rel="noopener" class="link-quiet">Google Scholar</a>
+      <span aria-hidden="true" class="text-zinc-400 dark:text-zinc-600">·</span>
+      <a href="https://github.com/shrutij01" target="_blank" rel="noopener" class="link-quiet">GitHub</a>
+      <span aria-hidden="true" class="text-zinc-400 dark:text-zinc-600">·</span>
+      <a href="https://x.com/_shruti_joshi_" target="_blank" rel="noopener" class="link-quiet">Twitter</a>
+    </p>
+    </div>
+  </header>
+
+  <section aria-labelledby="news-heading" class="rule mt-8 pt-5">
+    <h2 id="news-heading" class="section-heading">News</h2>
+    <ul class="mt-3">
+      {news.map((item) => (
+        <li class="flex gap-4 border-b border-ground-100 py-2 last:border-0 dark:border-ground-850">
+          <span class="meta flex-none pt-[0.15rem] tabular-nums">{item.date}</span>
+          <span class="text-[0.9rem]" set:html={item.text} />
+        </li>
+      ))}
+    </ul>
+
+    {olderNews.length > 0 && (
+      <details class="mt-3">
+        <summary class="cursor-pointer text-sm text-accent-700 dark:text-accent-400">Older news</summary>
+        <ul class="mt-2">
+          {olderNews.map((item) => (
+            <li class="flex gap-4 border-b border-ground-100 py-2 last:border-0 dark:border-ground-850">
+              <span class="meta flex-none pt-[0.15rem] tabular-nums">{item.date}</span>
+              <span class="text-[0.9rem]" set:html={item.text} />
+            </li>
+          ))}
+        </ul>
+      </details>
+    )}
+  </section>
+
+  <section aria-labelledby="recent-heading" class="rule mt-8 pt-5">
+    <h2 id="recent-heading" class="section-heading">Recent papers</h2>
+    <ul class="mt-3 space-y-3">
+      {recent.map((paper) => (
+        <li>
+          <span class="text-[0.9rem] leading-snug text-zinc-900 dark:text-zinc-100">{paper.title}</span>
+          <span class="ml-2 inline-flex flex-wrap items-center gap-x-3 text-[0.85rem]">
+            <span class="meta">{paper.venue}</span>
+            {paper.links.map((link) => (
+              <a
+                href={link.href}
+                target={link.href.startsWith('http') ? '_blank' : undefined}
+                rel={link.href.startsWith('http') ? 'noopener' : undefined}
+              >{link.label}</a>
+            ))}
+          </span>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-4 text-sm">
+      <a href="/publications">All publications</a>
+    </p>
   </section>
 </BaseLayout>

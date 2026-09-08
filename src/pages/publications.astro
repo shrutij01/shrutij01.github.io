@@ -1,39 +1,124 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { publications, allTags } from '../data/publications';
+import { publications, type Publication } from '../data/publications';
+
+// Newest first; within a year, flagged work first, then the order in the data file.
+const inGroup = (group: NonNullable<Publication['group']>) =>
+  publications
+    .map((publication, index) => ({ publication, index }))
+    .filter(({ publication }) => (publication.group ?? 'earlier') === group)
+    .sort(
+      (a, b) =>
+        b.publication.year - a.publication.year ||
+        Number(b.publication.highlight ?? false) - Number(a.publication.highlight ?? false) ||
+        a.index - b.index
+    )
+    .map(({ publication }) => publication);
+
+const sections = [
+  { heading: 'Identifiability and interpretability', items: inGroup('thesis') },
+  { heading: 'Earlier work', items: inGroup('earlier') },
+  { heading: 'Software', items: inGroup('software') },
+].filter((section) => section.items.length > 0);
+
+// The data file labels explainer links 'Blog'. They read 'Explainer' everywhere on the site.
+const linkLabel = (label: string) => (label.toLowerCase() === 'blog' ? 'Explainer' : label);
+
+// Split so her name can be set in the body colour and found in a long author list.
+const authorParts = (authors: string) => authors.split(/(Shruti Joshi\*?)/);
+
+// Some venue strings already name the year ('UAI 2026', "NeurIPS'26"). Append it to the rest.
+const venueLine = (publication: Publication) =>
+  /\d{4}|'\d{2}/.test(publication.venue)
+    ? publication.venue
+    : `${publication.venue} ${publication.year}`;
 ---
 
-<BaseLayout title="Selected Publications — Shruti Joshi">
-  <h1 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight mb-2">
+<BaseLayout
+  title="Publications — Shruti Joshi"
+  description="Papers and software by Shruti Joshi, on identifiability without a ground truth and its use in interpretability."
+  compact
+>
+  <h1 class="font-serif text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
     Publications
   </h1>
-  <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-8">
-    Filter by topic. Click BibTeX on any paper to copy the citation.
-  </p>
 
-  <!-- Hydrated React component for interactivity -->
-  <div id="pub-list">
-    <noscript>
-      {publications.map((pub) => (
-        <div class="py-4 border-b border-zinc-100 dark:border-zinc-800">
-          <h3 class="font-medium">{pub.title}</h3>
-          <p class="text-sm text-zinc-500">{pub.authors} · {pub.venue} · {pub.year}</p>
-        </div>
-      ))}
-    </noscript>
-  </div>
+  {sections.map((section) => (
+    <section class="rule mt-8 pt-5">
+      <h2 class="section-heading">{section.heading}</h2>
+
+      <ul class="mt-4 space-y-6">
+        {section.items.map((publication) => (
+          <li id={publication.id} class="scroll-mt-6">
+            <h3 class="text-[0.95rem] font-medium leading-snug text-zinc-900 dark:text-zinc-100">
+              {publication.title}
+            </h3>
+
+            <p class="mt-1 text-[0.85rem] leading-snug text-zinc-500 dark:text-zinc-500">
+              {authorParts(publication.authors).map((part) =>
+                part.startsWith('Shruti Joshi') ? (
+                  <span class="text-zinc-700 dark:text-zinc-300">{part}</span>
+                ) : (
+                  <span>{part}</span>
+                )
+              )}
+            </p>
+
+            {publication.summary && (
+              <p class="mt-2 text-[0.9rem]">{publication.summary}</p>
+            )}
+
+            <p class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.85rem]">
+              <span class="meta">{venueLine(publication)}</span>
+              {publication.links.map((link) => (
+                <a
+                  href={link.href}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={link.href.startsWith('http') ? 'noopener' : undefined}
+                >{linkLabel(link.label)}</a>
+              ))}
+              {publication.abstract && (
+                <button type="button" class="link-like disclose" data-panel={`abstract-${publication.id}`}>
+                  Abstract
+                </button>
+              )}
+              <button type="button" class="link-like disclose" data-panel={`bibtex-${publication.id}`}>
+                BibTeX
+              </button>
+            </p>
+
+            {publication.abstract && (
+              <p
+                id={`abstract-${publication.id}`}
+                hidden
+                class="mt-2 border-l border-ground-200 pl-4 text-[0.875rem] text-zinc-600 dark:border-ground-800 dark:text-zinc-400"
+              >{publication.abstract}</p>
+            )}
+
+            <pre
+              id={`bibtex-${publication.id}`}
+              hidden
+              class="mt-2 overflow-x-auto border-l border-ground-200 pl-4 font-mono text-[0.75rem] leading-relaxed text-zinc-600 dark:border-ground-800 dark:text-zinc-400"
+            >{publication.bibtex}</pre>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <p class="mt-8 text-sm">
+    <a href="https://scholar.google.com/citations?user=ypwj0KwAAAAJ&hl=en" target="_blank" rel="noopener">
+      Google Scholar
+    </a>
+  </p>
 </BaseLayout>
 
 <script>
-  import { createElement } from 'react';
-  import { createRoot } from 'react-dom/client';
-  import PublicationList from '../components/PublicationList';
-  import { publications, allTags } from '../data/publications';
-
-  const el = document.getElementById('pub-list');
-  if (el) {
-    createRoot(el).render(
-      createElement(PublicationList, { publications, allTags })
-    );
-  }
+  document.querySelectorAll<HTMLButtonElement>('button.disclose').forEach((button) => {
+    const panel = document.getElementById(button.dataset.panel ?? '');
+    if (!panel) return;
+    button.addEventListener('click', () => {
+      panel.hidden = !panel.hidden;
+    });
+  });
 </script>

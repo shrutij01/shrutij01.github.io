@@ -10,6 +10,17 @@ export default {
         serif: ['Newsreader', 'Georgia', 'serif'],
       },
       colors: {
+        /* Page ground, carrying the accent hue. 50/100/200 are the light mode
+           page, row hairlines and section rules; 800/850/900 are their
+           dark-mode counterparts. */
+        ground: {
+          50:  '#e8e1f6',
+          100: '#d8ccef',
+          200: '#c5b6e4',
+          800: '#332c47',
+          850: '#282239',
+          900: '#19142d',
+        },
         accent: {
           50:  '#faf5ff',
           100: '#f3e8ff',

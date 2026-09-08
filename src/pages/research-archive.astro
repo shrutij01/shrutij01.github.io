@@ -1,0 +1,152 @@
+
+
+
+
+
+
+
+
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Research — Shruti Joshi"
+  description="Identifiability without a ground truth: affordances, reachability under optimisation, and the interpretability of language models."
+  compact
+>
+  <h1 class="font-serif text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
+    Research
+  </h1>
+
+  <div class="mt-4 space-y-3 text-[0.95rem]">
+    <p>
+
+        My thesis develops affordance-based identifiability for representation learning, in which the learner makes interventions and collects their own training data to learn abstractions of it that preserve the distinctions revealed by those interventions, without requiring inversion of a predefined generative process. The goal is to formalise these learned abstractions that need not correspond to a fixed set of objects or predefined concepts, but instead capture affordances, i.e., how the learner can interact with a system and the reproducible effects of those interactions. This connects representation learning to experimental design, where I study developing policies that enable the learner to select interventions that distinguish competing abstractions consistent with its current evidence. This work complements the study of generalisation error in scaling theory by developing criteria for evaluating the representations themselves.
+      Identifiability theory says when a learned representation recovers the structure that
+      generated the data, and up to which transformations. The results are stated for settings
+      where the true factors are known and can be compared against. My work asks what the theory
+      becomes when that comparison is unavailable.
+    </p>
+  </div>
+
+  <section class="rule mt-8 pt-5">
+    <h2 class="section-heading">Identifiability without a ground truth</h2>
+    <div class="mt-3 space-y-3 text-[0.95rem]">
+      <p>
+        Every identifiability result fixes an equivalence class: the set of representations that
+        count as having recovered the same thing. Fixing that class requires saying what the true
+        factors are. On a synthetic benchmark the generative process is written down first, so the
+        class comes for free. In the settings I care about — the activations of a trained language
+        model, the sensory stream of an agent — the factors are unobservable and their number is
+        not well defined.
+      </p>
+      <p>
+        The consequence shows up first in evaluation. MCC, R² and DCI are the metrics used to
+        certify that recovery has happened, and each one quietly assumes something about the
+        data-generating process and something about the encoder.
+        <a href="/publications#joshi2026whoguards">Who Guards the Guardians?</a> (UAI 2026)
+        separates the two kinds of assumption, characterises the domain on which each metric is
+        valid, exhibits the systematic false positives and false negatives that occur outside it,
+        and releases a suite for stress testing.
+      </p>
+    </div>
+  </section>
+
+  <section class="rule mt-8 pt-5">
+    <h2 class="section-heading">Affordances fix the equivalence class</h2>
+    <div class="mt-3 space-y-3 text-[0.95rem]">
+      <p>
+        I am formalising a different source for the equivalence class: what an agent can do, and
+        what it observes as a consequence. Two representations are equivalent when they license the
+        same interventions and predict the same outcomes for them. What the definition needs is a
+        specified repertoire of actions. It needs no privileged coordinate system and no count of
+        true factors.
+      </p>
+      <p>
+        I am developing this in the setting of an agent that learns physical mechanisms by acting
+        on its environment, where the repertoire is given by the agent's body and the outcomes are
+        observed directly.
+      </p>
+    </div>
+  </section>
+
+  <section class="rule mt-8 pt-5">
+    <h2 class="section-heading">Reachability under finite data and a given optimiser</h2>
+    <div class="mt-3 space-y-3 text-[0.95rem]">
+      <p>
+        An identifiability theorem is a population-level statement about the global optimum of a
+        criterion. Training is finite data, a chosen parameterisation, and an optimiser with its own
+        bias. Whether the identifiable solution is reached at all is a separate question, and it is
+        the question that decides whether any of the theory is usable.
+      </p>
+      <p>
+        I treat identifiability error the way generalisation error is treated in supervised
+        learning: a quantity that varies with sample size, width, and optimisation, and that may
+        admit a scaling law. Constrained optimisation is the part I have evidence for so far, and it
+        stabilises hyperparameter transfer across scale and across datasets. The open problem is
+        characterising how parameterisation, architecture, and optimiser bias jointly determine
+        whether identifiable solutions are reachable.
+      </p>
+    </div>
+  </section>
+
+  <section class="rule mt-8 pt-5">
+    <h2 class="section-heading">Interpretability of language models</h2>
+    <div class="mt-3 space-y-3 text-[0.95rem]">
+      <p>
+        Interpretability is where I test the framework. A claim about a feature or a circuit is a
+        claim that a particular variable has been recovered from a model's activations, so the
+        question of what is recoverable, and under which assumptions, is the same question.
+      </p>
+      <p>
+        Pearl's hierarchy supplies the discipline. Observations license associations between
+        behaviour and internal components. Interventions such as ablation and activation patching
+        license claims about the effect of an edit on a behavioural metric. Counterfactual claims,
+        which ask what a model would have done on the same prompt under an intervention that was
+        never run, require controlled supervision that most interpretability studies do not have.
+        <a href="/publications#joshi2026causalitykeyinterpretabilityclaims">Causality is Key for Interpretability Claims to Generalise</a>
+        (ICML 2026) sets this out and shows how causal representation learning specifies which
+        variables are recoverable from activations, and under what assumptions.
+      </p>
+      <p>
+        <a href="/publications#joshi2025identifiable">Sparse Shift Autoencoders</a> are the method
+        that follows. The sparsity constraint applies to the differences between paired embeddings.
+        That is enough for identifiability from pairs of observations varying in several unknown
+        concepts, which gives steering of one concept at a time with no contrastive supervision.
+      </p>
+      <p>
+        Two studies measure the distance between that standard and current practice.
+        <a href="/publications#pacela2026stopprobing">Stop Probing, Start Coding</a> (UAI 2026)
+        attributes the failure of sparse autoencoders on unseen concept combinations to the gap
+        between amortised and per-sample inference, and shows that the gap survives more training
+        data. <a href="/publications#mueller2025isolationentanglement">From Isolation to Entanglement</a>
+        holds the correlations between textual concepts under control and finds that sparse
+        autoencoder features move many concepts at once when steered.
+      </p>
+    </div>
+  </section>
+
+  <section class="rule mt-8 pt-5">
+    <h2 class="section-heading">In progress</h2>
+    <div class="mt-3 space-y-3 text-[0.95rem]">
+      <p>
+        <strong class="font-medium text-zinc-900 dark:text-zinc-100">Jailbreak mechanisms.</strong>
+        A jailbreak is a dense perturbation in text space, and the corresponding change in latent
+        space should be sparse, which puts it within reach of an identifiable decomposition. The
+        question is where safety-relevant information sits in a network, and at which level of
+        abstraction it can be controlled.
+      </p>
+      <p>
+        <strong class="font-medium text-zinc-900 dark:text-zinc-100">Multi-agent cooperation.</strong>
+        When language models act as agents in social dilemmas, I want to know whether they encode
+        behavioural strategies — cooperation, defection, reciprocity — as vectors that survive a
+        change of model family and of dialogue context.
+      </p>
+    </div>
+  </section>
+
+  <p class="mt-8 text-sm">
+    <a href="/publications">All publications</a>
+  </p>
+</BaseLayout>

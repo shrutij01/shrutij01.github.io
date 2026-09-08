@@ -90,7 +90,7 @@ export default function ClaimsStudyChart() {
             </div>
           ))}
           <p className="text-[12px] text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed">
-            53.5% of claims carry rung-elevated language (paper-level cluster-bootstrap 95% CI [44%, 63%]);
+            53.5% of claims carry rung-elevated language (ground-level cluster-bootstrap 95% CI [44%, 63%]);
             a conservative re-coding that treats definite-article conventions as gap-free still leaves 47%.
             The robust statement: <strong>47–54%, depending on how you code linguistic convention.</strong>
           </p>

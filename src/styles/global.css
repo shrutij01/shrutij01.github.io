@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css');
 
 @tailwind base;
@@ -11,148 +11,94 @@
   }
 
   body {
-    @apply bg-white text-zinc-800 dark:bg-zinc-950 dark:text-zinc-200;
-    @apply transition-colors duration-300;
+    @apply bg-ground-50 text-zinc-800 dark:bg-ground-900 dark:text-zinc-300;
+    /* Iridescence: three wide, low-opacity washes in neighbouring hues over the
+       flat ground. Fixed, so the sheen holds still while the page scrolls. */
+    background-image:
+      radial-gradient(55rem 38rem at 8% -12%, rgb(168 85 247 / 0.26), transparent 62%),
+      radial-gradient(48rem 34rem at 92% 2%, rgb(99 102 241 / 0.22), transparent 64%),
+      radial-gradient(46rem 40rem at 62% 100%, rgb(236 72 153 / 0.18), transparent 60%);
+    background-attachment: fixed;
+    font-size: 16px;
+    line-height: 1.58;
+  }
+
+  .dark body {
+    background-image:
+      radial-gradient(55rem 38rem at 8% -12%, rgb(168 85 247 / 0.32), transparent 62%),
+      radial-gradient(48rem 34rem at 92% 2%, rgb(99 102 241 / 0.28), transparent 64%),
+      radial-gradient(46rem 40rem at 62% 100%, rgb(236 72 153 / 0.22), transparent 60%);
   }
 
   ::selection {
-    @apply bg-purple-200 dark:bg-purple-800/50;
+    @apply bg-accent-100 dark:bg-accent-900/60;
   }
 
-  /* Smooth theme transition */
-  *, *::before, *::after {
-    @apply transition-colors duration-200;
+  /* `.link-like` is for controls that read as links: the disclosure toggles
+     on /publications. Anything with it must behave like a link too. */
+  a,
+  .link-like {
+    @apply text-accent-700 dark:text-accent-400;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    text-decoration-color: rgb(126 34 206 / 0.32);
+  }
+
+  a:hover,
+  .link-like:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .dark a,
+  .dark .link-like {
+    text-decoration-color: rgb(192 132 252 / 0.35);
   }
 }
 
 @layer components {
+  /* One measure for the whole site. ~72 characters of body text. */
   .page-container {
-    @apply max-w-3xl mx-auto px-6 sm:px-8;
+    @apply mx-auto w-full max-w-2xl px-6 sm:px-8;
+  }
+
+  /* Retained so pages still passing `wide` keep working; same measure. */
+  .wide-page-container {
+    @apply mx-auto w-full max-w-2xl px-6 sm:px-8;
+  }
+
+  /* A section opens with a hairline and a small serif heading. */
+  .rule {
+    @apply border-t border-ground-200 dark:border-ground-800;
   }
 
   .section-heading {
-    @apply text-sm font-semibold uppercase tracking-widest
-           text-zinc-400 dark:text-zinc-500 mb-6;
+    @apply font-serif text-[1.05rem] font-semibold text-zinc-900 dark:text-zinc-100;
+  }
+
+  /* Dates, venues, years. Never used for prose. Left in the author's casing so
+     long venue strings ("Under submission to NeurIPS'26") stay readable. */
+  .meta {
+    @apply font-mono text-[0.72rem] tracking-wide text-zinc-500 dark:text-zinc-500;
+  }
+
+  /* Links that should read as text rather than as an accent. */
+  .link-quiet {
+    @apply text-zinc-600 no-underline hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-zinc-100;
   }
 
   .link-underline {
-    @apply underline decoration-purple-300 dark:decoration-purple-700
-           underline-offset-4 hover:decoration-purple-500
-           dark:hover:decoration-purple-400 transition-colors;
+    @apply text-accent-700 dark:text-accent-400;
   }
 
   .tag {
-    @apply inline-block text-xs font-medium px-2.5 py-0.5 rounded-full
-           bg-zinc-100 text-zinc-600
-           dark:bg-zinc-800 dark:text-zinc-400
-           border border-zinc-200 dark:border-zinc-700;
-  }
-
-  .tag-active {
-    @apply bg-purple-50 text-purple-700 border-purple-200
-           dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800;
-  }
-
-  .card {
-    @apply p-5 rounded-lg
-           border border-purple-100/60 dark:border-purple-800/20
-           bg-gradient-to-br from-purple-50/30 to-amber-50/20
-           dark:from-purple-950/20 dark:to-amber-950/10
-           hover:border-purple-200 dark:hover:border-purple-700/40
-           transition-all duration-200;
-  }
-
-  .btn-primary {
-    @apply inline-flex items-center gap-2 px-4 py-2
-           text-sm font-medium rounded-lg
-           text-white transition-all;
-    background: linear-gradient(135deg, #7c3aed, #9333ea, #a855f7);
-    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
-  }
-
-  .btn-primary:hover {
-    background: linear-gradient(135deg, #6d28d9, #7c3aed, #9333ea);
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
-  }
-
-  .dark .btn-primary {
-    background: linear-gradient(135deg, #a855f7, #c084fc);
-    color: #09090b;
-    box-shadow: 0 2px 8px rgba(168, 85, 247, 0.2);
-  }
-
-  .dark .btn-primary:hover {
-    background: linear-gradient(135deg, #c084fc, #d8b4fe);
-    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
-  }
-
-  .btn-ghost {
-    @apply inline-flex items-center gap-2 px-3 py-1.5
-           text-sm font-medium rounded-lg
-           text-zinc-600 dark:text-zinc-400
-           hover:bg-purple-50 dark:hover:bg-purple-950/30
-           hover:text-purple-700 dark:hover:text-purple-300
-           transition-colors;
-  }
-
-  .paper-card {
-    @apply p-8 rounded-xl relative;
-    background: linear-gradient(135deg,
-      rgb(250, 245, 255) 0%,
-      rgb(255, 253, 250) 50%,
-      rgb(254, 249, 239) 100%);
-    box-shadow:
-      0 1px 3px rgba(124, 58, 237, 0.06),
-      0 4px 16px rgba(124, 58, 237, 0.04),
-      inset 0 0 0 1px rgba(124, 58, 237, 0.1);
-  }
-
-  .dark .paper-card {
-    background: linear-gradient(135deg,
-      rgb(24, 18, 32) 0%,
-      rgb(18, 18, 22) 50%,
-      rgb(22, 20, 16) 100%);
-    box-shadow:
-      0 1px 3px rgba(0, 0, 0, 0.3),
-      0 4px 16px rgba(0, 0, 0, 0.2),
-      inset 0 0 0 1px rgba(168, 85, 247, 0.08);
-  }
-
-  /* Subtle shimmer overlay */
-  .paper-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(
-      135deg,
-      rgba(168, 85, 247, 0.03) 0%,
-      transparent 40%,
-      rgba(217, 179, 16, 0.03) 60%,
-      transparent 100%
-    );
-    pointer-events: none;
-  }
-
-  .dark .paper-card::before {
-    background: linear-gradient(
-      135deg,
-      rgba(168, 85, 247, 0.05) 0%,
-      transparent 40%,
-      rgba(217, 179, 16, 0.04) 60%,
-      transparent 100%
-    );
+    @apply inline-block text-xs text-zinc-500 dark:text-zinc-500;
   }
 }
 
-/* Code block styling */
-pre {
-  @apply !rounded-lg !border !border-zinc-200 dark:!border-zinc-800;
-}
-
-/* Code inside pre blocks: inherit Shiki's theme colors.
-   Without this, prose-code:* utilities (inline-code styling) also hit
-   pre > code and paint a light background under light syntax text. */
+/* Code blocks keep Shiki's own colours. Without this the prose-code
+   utilities also hit `pre > code` and paint a light background under
+   light syntax text. */
 .prose pre code {
   background-color: transparent !important;
   padding: 0 !important;
@@ -160,6 +106,10 @@ pre {
   font-size: 0.8rem;
 }
 
-/* KaTeX overrides for dark mode */
+.prose a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
 .dark .katex { color: theme('colors.zinc.200'); }
 .dark .katex .mord { color: theme('colors.zinc.200'); }

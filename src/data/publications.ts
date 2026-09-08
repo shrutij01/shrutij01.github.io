@@ -9,6 +9,10 @@ export interface Publication {
   bibtex: string;
   abstract?: string;
   highlight?: boolean;
+  /** Plain-English gloss, shown on /publications. Two sentences at most. */
+  summary?: string;
+  /** Which block on /publications this belongs to. Defaults to 'earlier'. */
+  group?: 'thesis' | 'earlier' | 'software';
 }
 
 
@@ -16,21 +20,35 @@ export interface Publication {
 export const publications: Publication[] = [
   {
     id: 'pacela2026stopprobing',
-    title: 'Stop Probing, Start Coding: Why Linear Probes and Sparse Autoencoders Fail at Compositional Generalization',
-    authors: 'Vitória Barin Pacela*, Shruti Joshi*, Isabela Camacho, Simon Lacoste-Julien, David Klindt',
+    title: 'Stop Probing, Start Coding: Why Linear Probes and Sparse Autoencoders Fail at Compositional Generalisation',
+    authors: 'Shruti Joshi*, Vitória Barin Pacela*, Isabela Camacho, Simon Lacoste-Julien, David Klindt',
     venue: 'UAI 2026',
     year: 2026,
     tags: ['interpretability', 'sparse-autoencoders', 'generalisation', 'evaluation'],
     highlight: false,
+    group: 'thesis',
+    summary: 'Sparse autoencoders replace per-sample sparse inference with a single learned encoder. We show that the resulting amortisation gap survives more training data, and that it accounts for the failures of these methods on concept combinations held out from training.',
     links: [
-      { label: 'PDF', href: '/Sparse_OOD-6.pdf' },
-      { label: 'Blog', href: '/blog/stop-probing-start-coding' },
+      { label: 'PMLR', href: 'https://proceedings.mlr.press/v337/barin-pacela26a.html' },
+      { label: 'Code', href: 'https://github.com/shrutij01/compositional-sparse-ood' },
     ],
-    bibtex: `@misc{pacela2026stopprobing,
-  title={Stop Probing, Start Coding: Why Linear Probes and Sparse Autoencoders Fail at Compositional Generalization},
-  author={Vitória Barin Pacela and Shruti Joshi and Isabela Camacho and Simon Lacoste-Julien and David Klindt},
-  year={2026},
-}`,
+    bibtex: `@InProceedings{pmlr-v337-barin-pacela26a,
+          title = 	 {Stop Probing, Start Coding: Why Linear Probes and Sparse Autoencoders Fail at Compositional Generalization},
+          author =       {Barin-Pacela, Vit\'{o}ria and Joshi, Shruti and Camacho, Isabela and Lacoste-Julien, Simon and Klindt, David},
+          booktitle = 	 {Proceedings of the 42nd Conference on Uncertainty in Artificial Intelligence},
+          pages = 	 {364--412},
+          year = 	 {2026},
+          editor = 	 {Perković, Emilija and Malinsky, Daniel},
+          volume = 	 {337},
+          series = 	 {Proceedings of Machine Learning Research},
+          month = 	 {17--21 Aug},
+          publisher =    {PMLR},
+          pdf = 	 {https://raw.githubusercontent.com/mlresearch/v337/main/assets/barin-pacela26a/barin-pacela26a.pdf},
+          url = 	 {https://proceedings.mlr.press/v337/barin-pacela26a.html},
+          abstract = 	 {Foundational to interpreting pretrained representations of deep generative models, the linear representation hypothesis states that neural network activations encode high-level concepts as linear mixtures. However, linear representation does not imply linear accessibility of such concepts: under superposition, when the number of concepts exceeds the activation dimension, recovering the underlying latent factors requires sparse nonlinear inference, making methods such as linear probes insufficient. Sparse autoencoders ({SAEs}) perform nonlinear inference but amortize it into a fixed encoder, introducing a systematic amortization gap. We show this gap dominates all other error sources and persists as the number of training samples is increased, causing {SAEs} to fail under out-of-distribution ({OOD}) compositional shifts. In contrast, classical sparse coding with per-sample iterative inference leverages compressed sensing guarantees to recover latent factors robustly, maintaining near-zero gaps in the accuracy between in and out of distribution. Our results demonstrate that the recent {OOD} failures of {SAEs} can be attributed to amortization failures: per-sample inference at test time substantially improves {OOD} performance, even when using a dictionary learned by an {SAE}. This is observed along a spectrum of hybrid approaches that progressively undo amortization and recover {OOD} performance.}
+        }
+        ,
+    }`,
     abstract: 'The linear representation hypothesis states that neural network activations encode high-level concepts as linear mixtures. However, under superposition, when the number of concepts exceeds the activation dimension, recovering underlying latent factors from the activations requires sparse nonlinear inference, making methods such as linear probes insufficient. In this setting, classical sparse coding methods with per-sample iterative inference leverage compressed sensing guarantees to recover latent factors. Sparse autoencoders (SAEs), on the other hand, perform nonlinear inference, but amortise it into a fixed encoder, introducing a systematic amortisation gap. We show this gap persists as the number of training samples is increased, causing SAEs to fail under out-of-distribution (OOD) compositional shifts. Our results demonstrate that the recent OOD failures of SAEs can be attributed to amortisation failures: per-sample inference at test time substantially improves OOD performance, even when using a dictionary learned by an SAE.',
   },
   {
@@ -41,13 +59,28 @@ export const publications: Publication[] = [
     year: 2026,
     tags: ['identifiable-representation-learning', 'evaluation'],
     highlight: false,
+    group: 'thesis',
+    summary: 'MCC, R² and DCI are the metrics used to certify that a representation has been identified. Each one encodes assumptions about the data-generating process and about the encoder, and outside those assumptions it reports success and failure for the wrong reasons.',
     links: [
-      { label: 'arXiv', href: 'http://arxiv.org/abs/2602.24278' },
+      { label: 'PMLR', href: 'https://proceedings.mlr.press/v337/joshi26a.html' },
+      { label: 'Code', href: 'https://github.com/shrutij01/identifiability-guard' },
     ],
-    bibtex: `@misc{joshi2026whoguards,
-  title={Who Guards the Guardians? The Challenges of Evaluating Identifiability of Learned Representations},
-  author={Shruti Joshi and Théo Saulus and Wieland Brendel and Philippe Brouillard and Dhanya Sridhar and Patrik Reizinger},
-  year={2026},
+    bibtex: `@InProceedings{pmlr-v337-joshi26a,
+  title = 	 {Who Guards the Guardians? {The} Challenges of Evaluating Identifiability of Learned Representations},
+  author =       {Joshi, Shruti and Saulus, Th\'{e}o and Brendel, Wieland and Brouillard, Philippe and Sridhar, Dhanya and Reizinger, Patrik},
+  booktitle = 	 {Proceedings of the 42nd Conference on Uncertainty in Artificial Intelligence},
+  pages = 	 {2618--2660},
+  year = 	 {2026},
+  editor = 	 {Perković, Emilija and Malinsky, Daniel},
+  volume = 	 {337},
+  series = 	 {Proceedings of Machine Learning Research},
+  month = 	 {17--21 Aug},
+  publisher =    {PMLR},
+  pdf = 	 {https://raw.githubusercontent.com/mlresearch/v337/main/assets/joshi26a/joshi26a.pdf},
+  url = 	 {https://proceedings.mlr.press/v337/joshi26a.html},
+  abstract = 	 {Identifiability in representation learning is commonly evaluated using standard metrics (e.g., *MCC, $R^2$, DCI*) on synthetic benchmarks with known ground-truth factors. These metrics are assumed to reflect recovery up to the equivalence class guaranteed by identifiability theory. We show that this assumption holds only under specific structural conditions: each metric implicitly encodes assumptions about both the data-generating process ({DGP}) and the encoder. When these assumptions are violated, metrics become misspecified and can produce systematic false positives and false negatives. Such failures occur both within classical identifiability regimes and in post-hoc settings where identifiability is most needed. We introduce a taxonomy separating {DGP} assumptions from encoder geometry, use it to characterise the validity domains of existing metrics, and release an evaluation suite for reproducible stress testing and comparison.}
+}
+,
 }`,
     abstract: 'Identifiability in representation learning is commonly evaluated using standard metrics (e.g., MCC, R², DCI) on synthetic benchmarks with known ground-truth factors. These metrics are assumed to reflect recovery up to the equivalence class guaranteed by identifiability theory. We show that this assumption holds only under specific structural conditions: each metric implicitly encodes assumptions about both the data-generating process (DGP) and the encoder. When these assumptions are violated, metrics become misspecified and can produce systematic false positives and false negatives. Such failures occur both within classical identifiability regimes and in post-hoc settings where identifiability is most needed. We introduce a taxonomy separating DGP assumptions from encoder geometry, use it to characterize the validity domains of existing metrics, and release an evaluation suite for reproducible stress testing and comparison.',
   },
@@ -59,17 +92,19 @@ export const publications: Publication[] = [
     year: 2026,
     tags: ['interpretability', 'identifiable-representation-learning', 'causality', 'sparse-autoencoders', 'generalisation', 'evaluation'],
     highlight: true,
+    group: 'thesis',
+    summary: 'Interpretability studies draw counterfactual conclusions from interventional experiments. Pearl’s hierarchy says which claims a given experiment licenses, and causal representation learning says which variables can be recovered from activations at all.',
     links: [
-      { label: 'arXiv', href: 'https://arxiv.org/abs/2602.16698' },
+      { label: 'ICML 2026', href: 'https://icml.cc/virtual/2026/poster/67225' },
     ],
-    bibtex: `@misc{joshi2026causalitykeyinterpretabilityclaims,
-      title={Causality is Key for Interpretability Claims to Generalise},
+    bibtex: `@inproceedings{
+      joshi2026position,
+      title={Position: Causality Is Key for Interpretability Claims to Generalise},
       author={Shruti Joshi and Aaron Mueller and David Klindt and Wieland Brendel and Patrik Reizinger and Dhanya Sridhar},
+      booktitle={Forty-third International Conference on Machine Learning Position Paper Track},
       year={2026},
-      eprint={2602.16698},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2602.16698},
+      url={https://openreview.net/forum?id=6l7cKIR6nf}
+      },
 }`,
     abstract: 'Interpretability research on large language models (LLMs) has yielded important insights into model behaviour, yet recurring pitfalls persist: findings that do not generalise, and causal interpretations that outrun the evidence. Our position is that causal inference specifies what constitutes a valid mapping from model activations to invariant high-level structures, the data or assumptions needed to achieve it, and the inferences it can support. Specifically, Pearl\'s causal hierarchy clarifies what an interpretability study can justify. Observations establish associations between model behaviour and internal components. Interventions (e.g., ablations or activation patching) support claims how these edits affect a behavioural metric (\eg, average change in token probabilities) over a set of prompts. However, counterfactual claims -- i.e., asking what the model output would have been for the same prompt under an unobserved intervention -- remain largely unverifiable without controlled supervision. We show how causal representation learning (CRL) operationalises this hierarchy, specifying which variables are recoverable from activations and under what assumptions. Together, these motivate a diagnostic framework that helps practitioners select methods and evaluations matching claims to evidence such that findings generalise.',
   },
@@ -81,15 +116,20 @@ export const publications: Publication[] = [
     year: 2025,
     tags: ['interpretability', 'identifiable-representation-learning', 'causality', 'sparse-autoencoders', 'method'],
     highlight: true,
+    group: 'thesis',
+    summary: 'Sparse codes over differences between embeddings are identifiable from pairs of observations that vary in several unknown concepts. This yields steering of one concept at a time without supervised contrastive data.',
     links: [
       { label: 'arXiv', href: 'https://arxiv.org/abs/2502.12179' },
-      { label: 'code', href: 'https://github.com/shrutij01/safecausal'}
+      { label: 'Code', href: 'https://github.com/shrutij01/ssae' }
     ],
-    bibtex: `@article{joshi2025identifiable,
-  title={Sparse Shift Autoencoders for Identifying Concepts from Large Language Model Activations},
-  author={Joshi, Shruti and Dittadi, Andrea and Lachapelle, S{\\'e}bastien and Sridhar, Dhanya},
-  journal={arXiv preprint arXiv:2502.12179},
-  year={2025}
+    bibtex: `@misc{joshi2026sparseshiftautoencodersidentifying,
+      title={Sparse Shift Autoencoders for Identifying Concepts from Large Language Model Activations}, 
+      author={Shruti Joshi and Andrea Dittadi and Sébastien Lachapelle and Dhanya Sridhar},
+      year={2026},
+      eprint={2502.12179},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2502.12179},
 }`,
     abstract: 'Steering methods manipulate the representations of large language models (LLMs) to induce responses that have desired properties, e.g., truthfulness, offering a promising approach for LLM alignment without the need for fine-tuning. Traditionally, steering has relied on supervision, such as from contrastive pairs of prompts that vary in a single target concept, which is costly to obtain and limits the speed of steering research. An appealing alternative is to use unsupervised approaches such as sparse autoencoders (SAEs) to map LLM embeddings to sparse representations that capture human-interpretable concepts. However, without further assumptions, SAEs may not be identifiable: they could learn latent dimensions that entangle multiple concepts, leading to unintentional steering of unrelated properties. We introduce Sparse Shift Autoencoders (SSAEs) that instead map the differences between embeddings to sparse representations. Crucially, we show that SSAEs are identifiable from paired observations that vary in multiple unknown concepts, leading to accurate steering of single concepts without the need for supervision. We empirically demonstrate accurate steering across semi-synthetic and real-world language datasets using Llama-3.1 embeddings.',
   },
@@ -97,21 +137,37 @@ export const publications: Publication[] = [
     id: 'mueller2025isolationentanglement',
     title: 'From Isolation to Entanglement: When Do Interpretability Methods Identify and Disentangle Known Concepts?',
     authors: 'Aaron Mueller, Andrew Lee, Shruti Joshi, Ekdeep Singh Lubana, Dhanya Sridhar, Patrik Reizinger',
-    venue: 'arXiv preprint',
+    venue: 'ACL 2026',
     year: 2025,
     tags: ['interpretability', 'identifiable-representation-learning', 'causality', 'sparse-autoencoders', 'evaluation'],
     highlight: false,
+    group: 'thesis',
+    summary: 'Concept representations are usually evaluated one concept at a time, under an implicit assumption that the concepts are independent. Holding the correlations between concepts under control, sparse autoencoder features affect many concepts at once when steered.',
     links: [
-      { label: 'arXiv', href: 'https://arxiv.org/abs/2512.15134' },
+      { label: 'ACL Long Paper', href: 'https://aclanthology.org/2026.acl-long.782/' },
     ],
-    bibtex: `@misc{mueller2025isolationentanglementinterpretabilitymethods,
-  title={From Isolation to Entanglement: When Do Interpretability Methods Identify and Disentangle Known Concepts?},
-  author={Aaron Mueller and Andrew Lee and Shruti Joshi and Ekdeep Singh Lubana and Dhanya Sridhar and Patrik Reizinger},
-  year={2025},
-  eprint={2512.15134},
-  archivePrefix={arXiv},
-  primaryClass={cs.LG},
-  url={https://arxiv.org/abs/2512.15134}
+    bibtex: `@inproceedings{mueller-etal-2026-isolation,
+    title = "From Isolation to Entanglement: When Do Interpretability Methods Identify and Disentangle Known Concepts?",
+    author = "Mueller, Aaron  and
+      Lee, Andrew  and
+      Joshi, Shruti  and
+      Lubana, Ekdeep Singh  and
+      Sridhar, Dhanya  and
+      Reizinger, Patrik",
+    editor = "Liakata, Maria  and
+      Moreira, Viviane P.  and
+      Zhang, Jiajun  and
+      Jurgens, David",
+    booktitle = "Proceedings of the 64th Annual Meeting of the {A}ssociation for {C}omputational {L}inguistics (Volume 1: Long Papers)",
+    month = jul,
+    year = "2026",
+    address = "San Diego, California, United States",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2026.acl-long.782/",
+    doi = "10.18653/v1/2026.acl-long.782",
+    pages = "17188--17210",
+    ISBN = "979-8-89176-390-6",
+    abstract = "A goal of interpretability is to recover disentangled representations of latent concepts (features) from the activations of neural networks. The quality of features is typically evaluated in isolation, and under implicit independence assumptions that may not hold in practice. Thus, it is unclear to what extent common featurization methods such as sparse autoencoders (SAEs) and probes disentangle one concept from another. We propose a multi-concept evaluation setting using concepts such as sentiment, domain, voice, and tense. We evaluate how well featurizers produce disentangled representations of each concept, observing that features are typically sensitive to only one concept, but also that concepts are distributed across many features. Then, we steer these features, measuring whether each concept is independently manipulable, and whether features interact. Even in idealized settings, steering a feature often affects many concepts, despite a near absence of interaction effects. These results suggest that correlational metrics are insufficient to establish steering selectivity, and that demonstrating that two features operate in separate spaces is insufficient to claim that they will be selective for one concept. These results underscore the importance of multi-concept evaluations in interpretability research."
 }`,
     abstract: 'A central goal of interpretability is to recover representations of causally relevant concepts from the activations of neural networks. The quality of these concept representations is typically evaluated in isolation, and under implicit independence assumptions that may not hold in practice. Thus, it is unclear whether common featurization methods - including sparse autoencoders (SAEs) and sparse probes - recover disentangled representations of these concepts. This study proposes a multi-concept evaluation setting where we control the correlations between textual concepts, such as sentiment, domain, and tense, and analyze performance under increasing correlations between them. We first evaluate the extent to which featurizers can learn disentangled representations of each concept under increasing correlational strengths. We observe a one-to-many relationship from concepts to features: features correspond to no more than one concept, but concepts are distributed across many features. Then, we perform steering experiments, measuring whether each concept is independently manipulable. Even when trained on uniform distributions of concepts, SAE features generally affect many concepts when steered, indicating that they are neither selective nor independent; nonetheless, features affect disjoint subspaces. These results suggest that correlational metrics for measuring disentanglement are generally not sufficient for establishing independence when steering, and that affecting disjoint subspaces is not sufficient for concept selectivity. These results underscore the importance of compositional evaluations in interpretability research.',
   },
@@ -122,6 +178,8 @@ export const publications: Publication[] = [
     venue: 'GitHub',
     year: 2020,
     tags: ['software-package', 'robotics', 'reinforcement-learning'],
+    group: 'software',
+    summary: 'The simulation package for the TriFinger platform, used for the Real Robot Challenge and maintained by the Open Dynamic Robot Initiative.',
     links: [
       { label: 'Code', href: 'https://github.com/open-dynamic-robot-initiative/trifinger_simulation' },
       { label: 'Paper', href: 'https://corlconf.github.io/corl2020/paper_421/' },
@@ -134,7 +192,6 @@ export const publications: Publication[] = [
   journal = {GitHub repository},
   howpublished = {\\url{https://github.com/open-dynamic-robot-initiative/trifinger_simulation}}
 }`,
-    abstract: 'Official simulation package of the TriFinger robots.',
   },
   {
     id: 'gondal2021function',
