@@ -8,6 +8,9 @@ interface Props {
   description?: string;
   wide?: boolean;
   compact?: boolean;
+  /** Hold page content to the reading measure. Off for pages that lay out their
+      own columns, such as the homepage header beside the portrait. */
+  measure?: boolean;
 }
 
 const {
@@ -15,6 +18,7 @@ const {
   description = 'PhD Student',
   wide = false,
   compact = false,
+  measure = true,
 } = Astro.props;
 
 const containerClass = wide ? 'wide-page-container' : 'page-container';
@@ -56,7 +60,9 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
     containerClass,
     compact ? 'py-6 sm:py-8' : 'py-10 sm:py-14',
   ]}>
-    <slot />
+    <div class:list={[measure && 'measure']}>
+      <slot />
+    </div>
   </main>
   <Footer wide={wide} compact={compact} />
 </body>

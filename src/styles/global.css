@@ -57,14 +57,21 @@
 }
 
 @layer components {
-  /* One measure for the whole site. ~72 characters of body text. */
+  /* Outer width of the page. Wide enough that the homepage bio still reaches
+     the reading measure below once the portrait has taken its share. */
   .page-container {
-    @apply mx-auto w-full max-w-2xl px-6 sm:px-8;
+    @apply mx-auto w-full max-w-4xl px-6 sm:px-8;
   }
 
   /* Retained so pages still passing `wide` keep working; same measure. */
   .wide-page-container {
-    @apply mx-auto w-full max-w-2xl px-6 sm:px-8;
+    @apply mx-auto w-full max-w-4xl px-6 sm:px-8;
+  }
+
+  /* The reading measure, ~75 characters. Prose sections carry this so they stay
+     legible while the header spreads to the full page width beside the photo. */
+  .measure {
+    @apply max-w-[38rem];
   }
 
   /* A section opens with a hairline and a small serif heading. */

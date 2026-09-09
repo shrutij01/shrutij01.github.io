@@ -20,7 +20,7 @@ const allNews = [
   },
   {
     date: '05/2026',
-    text: 'Glad to receive the Golden Reviewer Award at <a href="https://icml.cc/Conferences/2026">ICML 2026</a>.',
+    text: 'Two first-author papers accepted at <a href="/publications">UAI 2026</a>.',
   },
   {
     date: '05/2026',
@@ -28,7 +28,7 @@ const allNews = [
   },
   {
     date: '05/2026',
-    text: 'Two first-author papers accepted at <a href="/publications">UAI 2026</a>.',
+    text: 'Glad to receive the Golden Reviewer Award at <a href="https://icml.cc/Conferences/2026">ICML 2026</a>.',
   },
 ];
 
@@ -47,19 +47,21 @@ const recent = publications
 
 <BaseLayout
   title="Shruti Joshi"
-  description="Shruti Joshi works on identifiability without a ground truth, and tests the ideas on the interpretability of language models."
   compact
+  measure={false}
 >
-  <header class="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-9">
+  <!-- The row waits for md: at sm: there is not yet room for both columns, and
+       the bio would come out narrower than it is stacked on a large phone. -->
+  <header class="flex flex-col gap-6 md:flex-row md:items-center md:gap-12">
     <img
       src="/photo.jpg"
       alt="Shruti Joshi"
       width="192"
       height="240"
-      class="w-40 flex-none rounded-sm object-cover ring-1 ring-ground-200 dark:ring-ground-800 sm:order-2 sm:w-48"
+      class="w-40 flex-none rounded-sm object-cover ring-1 ring-ground-200 dark:ring-ground-800 md:order-2 md:w-48"
     />
 
-    <div class="min-w-0 flex-1 sm:order-1">
+    <div class="min-w-0 flex-1 md:order-1">
     <h1 class="font-serif text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
       Shruti Joshi
     </h1>
@@ -70,7 +72,10 @@ const recent = publications
         <a href="https://dsridhar.com" target="_blank" rel="noopener">Dhanya Sridhar</a>.
       </p>
       <p>
-        The burning questions that motivate my research are: How can we discover physical mechanisms from data in an unsupervised manner by developing models that collect data to validate or falsify their own hypotheses? And, how can we evaluate the quality of representations learned by these models in terms of their ability to identify invariances in data and correctly recombine them in novel settings? To answer these questions, I draw on my training in statistical machine learning, especially <a href="https://en.wikipedia.org/wiki/Identifiability">identifiability</a> and <a href="https://www.stats.ox.ac.uk/~evans/APTS/intro.html#ques">causal inference</a>. Read more in my <a href="/research">research statement</a>.
+        The burning questions that motivate my research are: How can we perform unsupervised discovery of physical mechanisms through models that collect data to falsify their own hypotheses? And, how can we evaluate the representations learned by these models towards identifying invariances in data and correctly recombining them in novel settings? To answer these questions, I draw on my training in statistical machine learning, especially <a href="https://en.wikipedia.org/wiki/Identifiability">identifiability</a> and <a href="https://www.stats.ox.ac.uk/~evans/APTS/intro.html#ques">causal inference</a>. Read more in my <a href="/research">research statement</a>.
+      </p>
+      <p>
+      I have applied my recent research to problems in interpretability and control of large language models (LLMs), and their safety through generalisable guarantees and understanding their reasoning process.
       </p>
     </div>
 
@@ -86,7 +91,7 @@ const recent = publications
     </div>
   </header>
 
-  <section aria-labelledby="news-heading" class="rule mt-8 pt-5">
+  <section aria-labelledby="news-heading" class="rule measure mt-8 pt-5">
     <h2 id="news-heading" class="section-heading">News</h2>
     <ul class="mt-3">
       {news.map((item) => (
@@ -112,7 +117,7 @@ const recent = publications
     )}
   </section>
 
-  <section aria-labelledby="recent-heading" class="rule mt-8 pt-5">
+  <section aria-labelledby="recent-heading" class="rule measure mt-8 pt-5">
     <h2 id="recent-heading" class="section-heading">Recent papers</h2>
     <ul class="mt-3 space-y-3">
       {recent.map((paper) => (
