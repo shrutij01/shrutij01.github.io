@@ -119,7 +119,7 @@ export const publications: Publication[] = [
     group: 'thesis',
     summary: 'Sparse codes over differences between embeddings are identifiable from pairs of observations that vary in several unknown concepts. This yields steering of one concept at a time without supervised contrastive data.',
     links: [
-      { label: 'arXiv', href: 'https://arxiv.org/abs/2502.12179' },
+      { label: 'arXiv', href: 'https://drive.google.com/file/d/1CESogqUplRAkf5ecfUMcsunzsDAiPmx3/view?usp=sharing' },
       { label: 'Code', href: 'https://github.com/shrutij01/ssae' }
     ],
     bibtex: `@misc{joshi2026sparseshiftautoencodersidentifying,
@@ -129,7 +129,7 @@ export const publications: Publication[] = [
       eprint={2502.12179},
       archivePrefix={arXiv},
       primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2502.12179},
+      url={https://arxiv.org/abs/2502.12179}, 
 }`,
     abstract: 'Steering methods manipulate the representations of large language models (LLMs) to induce responses that have desired properties, e.g., truthfulness, offering a promising approach for LLM alignment without the need for fine-tuning. Traditionally, steering has relied on supervision, such as from contrastive pairs of prompts that vary in a single target concept, which is costly to obtain and limits the speed of steering research. An appealing alternative is to use unsupervised approaches such as sparse autoencoders (SAEs) to map LLM embeddings to sparse representations that capture human-interpretable concepts. However, without further assumptions, SAEs may not be identifiable: they could learn latent dimensions that entangle multiple concepts, leading to unintentional steering of unrelated properties. We introduce Sparse Shift Autoencoders (SSAEs) that instead map the differences between embeddings to sparse representations. Crucially, we show that SSAEs are identifiable from paired observations that vary in multiple unknown concepts, leading to accurate steering of single concepts without the need for supervision. We empirically demonstrate accurate steering across semi-synthetic and real-world language datasets using Llama-3.1 embeddings.',
   },
